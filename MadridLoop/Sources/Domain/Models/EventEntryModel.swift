@@ -7,7 +7,7 @@
 
 import Foundation
 
-open class LandingEntryModel {
+open class EventEntryModel {
     let id: String
     let title: String
     let description: String
