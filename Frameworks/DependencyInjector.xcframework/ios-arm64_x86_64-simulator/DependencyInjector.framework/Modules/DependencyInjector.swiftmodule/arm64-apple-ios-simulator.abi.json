@@ -1,0 +1,520 @@
+{
+  "ABIRoot": {
+    "kind": "Root",
+    "name": "DependencyInjector",
+    "printedName": "DependencyInjector",
+    "children": [
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "DependencyInjector",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "DependencyContainer",
+        "printedName": "DependencyContainer",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "shared",
+            "printedName": "shared",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "DependencyContainer",
+                "printedName": "DependencyInjector.DependencyContainer",
+                "usr": "s:18DependencyInjector0A9ContainerC"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:18DependencyInjector0A9ContainerC6sharedACvpZ",
+            "mangledName": "$s18DependencyInjector0A9ContainerC6sharedACvpZ",
+            "moduleName": "DependencyInjector",
+            "static": true,
+            "declAttributes": [
+              "HasInitialValue",
+              "Final",
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "DependencyContainer",
+                    "printedName": "DependencyInjector.DependencyContainer",
+                    "usr": "s:18DependencyInjector0A9ContainerC"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:18DependencyInjector0A9ContainerC6sharedACvgZ",
+                "mangledName": "$s18DependencyInjector0A9ContainerC6sharedACvgZ",
+                "moduleName": "DependencyInjector",
+                "static": true,
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Function",
+            "name": "register",
+            "printedName": "register(_:_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Metatype",
+                "printedName": "τ_0_0.Type",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "GenericTypeParam",
+                    "printedName": "τ_0_0"
+                  }
+                ]
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Metatype",
+                "printedName": "τ_0_1.Type",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "GenericTypeParam",
+                    "printedName": "τ_0_1"
+                  }
+                ]
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:18DependencyInjector0A9ContainerC8registeryyxm_q_mtr0_lF",
+            "mangledName": "$s18DependencyInjector0A9ContainerC8registeryyxm_q_mtr0_lF",
+            "moduleName": "DependencyInjector",
+            "genericSig": "<τ_0_0, τ_0_1>",
+            "sugared_genericSig": "<T, P>",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "resolve",
+            "printedName": "resolve(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "τ_0_0?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "GenericTypeParam",
+                    "printedName": "τ_0_0"
+                  }
+                ],
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Metatype",
+                "printedName": "τ_0_0.Type",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "GenericTypeParam",
+                    "printedName": "τ_0_0"
+                  }
+                ]
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:18DependencyInjector0A9ContainerC7resolveyxSgxmlF",
+            "mangledName": "$s18DependencyInjector0A9ContainerC7resolveyxSgxmlF",
+            "moduleName": "DependencyInjector",
+            "genericSig": "<τ_0_0>",
+            "sugared_genericSig": "<T>",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "getAllInstancesForAProtocol",
+            "printedName": "getAllInstancesForAProtocol(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[τ_0_0]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "GenericTypeParam",
+                    "printedName": "τ_0_0"
+                  }
+                ],
+                "usr": "s:Sa"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Metatype",
+                "printedName": "τ_0_0.Type",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "GenericTypeParam",
+                    "printedName": "τ_0_0"
+                  }
+                ]
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:18DependencyInjector0A9ContainerC27getAllInstancesForAProtocolySayxGxmlF",
+            "mangledName": "$s18DependencyInjector0A9ContainerC27getAllInstancesForAProtocolySayxGxmlF",
+            "moduleName": "DependencyInjector",
+            "genericSig": "<τ_0_0>",
+            "sugared_genericSig": "<T>",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "s:18DependencyInjector0A9ContainerC",
+        "mangledName": "$s18DependencyInjector0A9ContainerC",
+        "moduleName": "DependencyInjector",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "hasMissingDesignatedInitializers": true,
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "DependencyInjector",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "Injected",
+        "printedName": "Injected",
+        "children": [
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Injected",
+                "printedName": "DependencyInjector.Injected<τ_0_0>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "GenericTypeParam",
+                    "printedName": "τ_0_0"
+                  }
+                ],
+                "usr": "s:18DependencyInjector8InjectedV"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:18DependencyInjector8InjectedVACyxGycfc",
+            "mangledName": "$s18DependencyInjector8InjectedVACyxGycfc",
+            "moduleName": "DependencyInjector",
+            "genericSig": "<τ_0_0>",
+            "sugared_genericSig": "<T>",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Var",
+            "name": "wrappedValue",
+            "printedName": "wrappedValue",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "GenericTypeParam",
+                "printedName": "τ_0_0"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:18DependencyInjector8InjectedV12wrappedValuexvp",
+            "mangledName": "$s18DependencyInjector8InjectedV12wrappedValuexvp",
+            "moduleName": "DependencyInjector",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "GenericTypeParam",
+                    "printedName": "τ_0_0"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:18DependencyInjector8InjectedV12wrappedValuexvg",
+                "mangledName": "$s18DependencyInjector8InjectedV12wrappedValuexvg",
+                "moduleName": "DependencyInjector",
+                "genericSig": "<τ_0_0>",
+                "sugared_genericSig": "<T>",
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "GenericTypeParam",
+                    "printedName": "τ_0_0"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:18DependencyInjector8InjectedV12wrappedValuexvs",
+                "mangledName": "$s18DependencyInjector8InjectedV12wrappedValuexvs",
+                "moduleName": "DependencyInjector",
+                "genericSig": "<τ_0_0>",
+                "sugared_genericSig": "<T>",
+                "declAttributes": [
+                  "Mutating"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:18DependencyInjector8InjectedV12wrappedValuexvM",
+                "mangledName": "$s18DependencyInjector8InjectedV12wrappedValuexvM",
+                "moduleName": "DependencyInjector",
+                "genericSig": "<τ_0_0>",
+                "sugared_genericSig": "<T>",
+                "implicit": true,
+                "accessorKind": "_modify"
+              }
+            ]
+          }
+        ],
+        "declKind": "Struct",
+        "usr": "s:18DependencyInjector8InjectedV",
+        "mangledName": "$s18DependencyInjector8InjectedV",
+        "moduleName": "DependencyInjector",
+        "genericSig": "<τ_0_0>",
+        "sugared_genericSig": "<T>",
+        "declAttributes": [
+          "AccessControl",
+          "PropertyWrapper"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "DependencyInjector",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "Instanciable",
+        "printedName": "Instanciable",
+        "children": [
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "GenericTypeParam",
+                "printedName": "τ_0_0"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:18DependencyInjector12InstanciablePxycfc",
+            "mangledName": "$s18DependencyInjector12InstanciablePxycfc",
+            "moduleName": "DependencyInjector",
+            "genericSig": "<τ_0_0 where τ_0_0 : DependencyInjector.Instanciable>",
+            "sugared_genericSig": "<Self where Self : DependencyInjector.Instanciable>",
+            "protocolReq": true,
+            "reqNewWitnessTableEntry": true,
+            "init_kind": "Designated"
+          }
+        ],
+        "declKind": "Protocol",
+        "usr": "s:18DependencyInjector12InstanciableP",
+        "mangledName": "$s18DependencyInjector12InstanciableP",
+        "moduleName": "DependencyInjector",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "DependencyInjector",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "ModuleContract",
+        "printedName": "ModuleContract",
+        "children": [
+          {
+            "kind": "Function",
+            "name": "inject",
+            "printedName": "inject()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:18DependencyInjector14ModuleContractP6injectyyFZ",
+            "mangledName": "$s18DependencyInjector14ModuleContractP6injectyyFZ",
+            "moduleName": "DependencyInjector",
+            "genericSig": "<τ_0_0 where τ_0_0 : DependencyInjector.ModuleContract>",
+            "sugared_genericSig": "<Self where Self : DependencyInjector.ModuleContract>",
+            "static": true,
+            "protocolReq": true,
+            "declAttributes": [
+              "RawDocComment"
+            ],
+            "reqNewWitnessTableEntry": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Protocol",
+        "usr": "s:18DependencyInjector14ModuleContractP",
+        "mangledName": "$s18DependencyInjector14ModuleContractP",
+        "moduleName": "DependencyInjector",
+        "declAttributes": [
+          "AccessControl",
+          "RawDocComment"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          }
+        ]
+      }
+    ],
+    "json_format_version": 8
+  },
+  "ConstValues": []
+}

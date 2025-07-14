@@ -1,0 +1,29 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.0.3 effective-5.10 (swiftlang-6.0.3.1.10 clang-1600.0.30.1)
+// swift-module-flags: -target arm64-apple-ios18.2-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-bare-slash-regex -module-name DependencyInjector
+@_exported import DependencyInjector
+import Foundation
+import Swift
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+@_hasMissingDesignatedInitializers public class DependencyContainer {
+  public static let shared: DependencyInjector.DependencyContainer
+  public func register<T, P>(_ protocolType: T.Type, _ creation: P.Type)
+  public func resolve<T>(_ protocolType: T.Type) -> T?
+  public func getAllInstancesForAProtocol<T>(_ protocolType: T.Type) -> [T]
+  @objc deinit
+}
+@propertyWrapper public struct Injected<T> {
+  public init()
+  public var wrappedValue: T {
+    get
+    set
+  }
+}
+public protocol Instanciable {
+  init()
+}
+public protocol ModuleContract {
+  static func inject()
+}

@@ -1,0 +1,54 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.0.3 effective-5.10 (swiftlang-6.0.3.1.10 clang-1600.0.30.1)
+// swift-module-flags: -target arm64-apple-ios18.2 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-bare-slash-regex -module-name Navigation
+import Combine
+import DependencyInjector
+@_exported import Navigation
+import Swift
+import SwiftUI
+import UIKit
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+@_Concurrency.MainActor @preconcurrency public struct UIKitNavigationView : SwiftUI.UIViewControllerRepresentable {
+  @_Concurrency.MainActor @preconcurrency public static let shared: Navigation.UIKitNavigationView
+  @objc @_hasMissingDesignatedInitializers @_Concurrency.MainActor @preconcurrency public class Coordinator : ObjectiveC.NSObject, UIKit.UINavigationControllerDelegate {
+    @objc deinit
+  }
+  @_Concurrency.MainActor @preconcurrency public func makeCoordinator() -> Navigation.UIKitNavigationView.Coordinator
+  @_Concurrency.MainActor @preconcurrency public func makeUIViewController(context: Navigation.UIKitNavigationView.Context) -> UIKit.UINavigationController
+  @_Concurrency.MainActor @preconcurrency public func updateUIViewController(_ uiViewController: UIKit.UINavigationController, context: Navigation.UIKitNavigationView.Context)
+  public typealias Body = Swift.Never
+  public typealias UIViewControllerType = UIKit.UINavigationController
+}
+public protocol NavigationInfo {
+  var presentationType: Navigation.PresentationType { get }
+}
+public protocol ScreenNavigator : DependencyInjector.Instanciable {
+  func destinationFor(navigationInfo: any Navigation.NavigationInfo) throws -> (any SwiftUICore.View)?
+}
+public enum PresentationType {
+  case push
+  case modal
+  case fullScreen
+  case goBack
+  case goBackTo(times: Swift.Int)
+  case goToRoot
+  case dismissModal
+}
+@_hasMissingDesignatedInitializers final public class Router : Combine.ObservableObject {
+  public static let shared: Navigation.Router
+  final public func setRoot<Content>(_ view: Content, completion: (() -> Swift.Void)? = nil) where Content : SwiftUICore.View
+  final public func navigateToRoot(completion: (() -> Swift.Void)? = nil)
+  final public func navigateTo<Content>(_ view: Content, style: Navigation.PresentationType, completion: (() -> Swift.Void)? = nil) where Content : SwiftUICore.View
+  final public func goBack(completion: (() -> Swift.Void)? = nil)
+  final public func presentAsModal<Content>(_ view: Content, completion: (() -> Swift.Void)? = nil) where Content : SwiftUICore.View
+  final public func dismissModal(completion: (() -> Swift.Void)? = nil)
+  final public func goBackTo(times: Swift.Int, completion: (() -> Swift.Void)? = nil)
+  final public func navigateTo(_ navigationinfo: any Navigation.NavigationInfo, completion: (() -> Swift.Void)? = nil)
+  final public func setRoot(_ navigationInfo: any Navigation.NavigationInfo, completion: (() -> Swift.Void)? = nil)
+  public typealias ObjectWillChangePublisher = Combine.ObservableObjectPublisher
+  @objc deinit
+}
+extension Navigation.UIKitNavigationView : Swift.Sendable {}
+extension Navigation.UIKitNavigationView.Coordinator : Swift.Sendable {}
