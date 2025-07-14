@@ -18,7 +18,7 @@ open class MadridRepository: GetEventsCalendarRepositoryContract {
         self.landingEntriesEntityMapper = landingEntriesEntityMapper
     }
 
-    public func getEventsCalendar() async throws -> [LandingEntryModel] {
+    public func getEventsCalendar() async throws -> [EventEntryModel] {
         let entity = try await getEventsCalendarRemoteDataSource.getEventsCalendar()
         return try landingEntriesEntityMapper.map(entity)
     }

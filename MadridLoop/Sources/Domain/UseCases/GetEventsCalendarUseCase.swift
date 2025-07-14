@@ -12,7 +12,7 @@ open class GetEventsCalendarUseCaseParameters {
 }
 
 public protocol GetEventsCalendarUseCaseContract: Instanciable {
-    func run(_ parameters: GetEventsCalendarUseCaseParameters) async throws -> [LandingEntryModel]
+    func run(_ parameters: GetEventsCalendarUseCaseParameters) async throws -> [EventEntryModel]
 }
 
 open class GetEventsCalendarUseCase: GetEventsCalendarUseCaseContract {
@@ -23,7 +23,7 @@ open class GetEventsCalendarUseCase: GetEventsCalendarUseCaseContract {
         self.repository = repository
     }
     
-    public func run(_ parameters: GetEventsCalendarUseCaseParameters) async throws -> [LandingEntryModel] {
+    open func run(_ parameters: GetEventsCalendarUseCaseParameters) async throws -> [EventEntryModel] {
         return try await repository.getEventsCalendar()
     }
 }

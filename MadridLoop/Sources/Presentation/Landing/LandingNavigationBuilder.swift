@@ -10,7 +10,7 @@ import DependencyInjector
 import PresentationLayer
 
 public protocol LandingNavigationBuilderContract: NavigationBuilder {
-    func navigateToPetDetail(petId: String)
+    func navigateToMapScreen(mapScreenNavigationModel: MapScreenNavigationModel)
     func goBack()
 }
 
@@ -23,7 +23,12 @@ open class LandingNavigationBuilder: LandingNavigationBuilderContract {
         self.goBack(animated: true, screen: nil, nil)
     }
 
-    public func goBack(animated: Bool, screen: (any Navigation.NavigationInfo)?, _ completion: (() -> Void)?) {
+    open func navigateToMapScreen(mapScreenNavigationModel: MapScreenNavigationModel) {
+        let navigationInfo = IncomingNavigation.mapScreen(navigationModel: mapScreenNavigationModel)
+        Router.shared.navigateTo(navigationInfo)
+    }
+
+    open func goBack(animated: Bool, screen: (any Navigation.NavigationInfo)?, _ completion: (() -> Void)?) {
         Router.shared.goBackTo(times: 1)
     }
 }

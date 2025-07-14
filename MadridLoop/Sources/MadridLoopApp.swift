@@ -5,7 +5,7 @@ import MapKit
 @main
 struct MadridLoopApp: App {
 
-    let manager = LocationManager()
+    let manager = UserLocationManager()
     let locations = [Location(id: "1", coordinate: CLLocationCoordinate2D(latitude: 40.4168, longitude: -3.7038)),
                      Location(id: "2", coordinate: CLLocationCoordinate2D(latitude: 40.4168, longitude: -3.7036))]
 
@@ -16,25 +16,15 @@ struct MadridLoopApp: App {
         LandingHeaderSectionModule.inject()
         DataModule.inject()
         DomainModule.inject()
-        Router.shared.setRoot(IncomingNavigation.entryPoint)
+        MapModule.inject()
+        MapContentSectionModule.inject()
+        MapHeaderSectionModule.inject()
+        Router.shared.setRoot(IncomingNavigation.entryPoint(identifier: ""))
     }
 
     var body: some Scene {
-        /*
          WindowGroup {
             UIKitNavigationView.shared.environmentObject(Router.shared).background(Color.gray.opacity(0.3))
-        }
-         */
-        WindowGroup {
-            MapView(
-                userLocation: manager.location!,
-                places: locations,
-                action: { id in
-                    print("tocado" + id)
-                }
-            )
-            .environmentObject(Router.shared)
-            .background(Color.gray.opacity(0.3))
         }
     }
 }

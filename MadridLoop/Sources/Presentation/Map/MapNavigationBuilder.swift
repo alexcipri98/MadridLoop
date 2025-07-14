@@ -1,5 +1,5 @@
 //
-//  LandingNavigationBuilder.swift
+//  MapNavigationBuilder.swift
 //  MadridLoop
 //
 //  Created by Alex Ciprian lopez on 13/7/25.
@@ -9,12 +9,12 @@ import Navigation
 import DependencyInjector
 import PresentationLayer
 
-public protocol LandingNavigationBuilderContract: NavigationBuilder {
+public protocol MapNavigationBuilderContract: NavigationBuilder {
     func navigateToPetDetail(petId: String)
     func goBack()
 }
 
-open class LandingNavigationBuilder: LandingNavigationBuilderContract {
+open class MapNavigationBuilder: MapNavigationBuilderContract {
     public required init() {}
 
     public func navigateToPetDetail(petId: String) {}

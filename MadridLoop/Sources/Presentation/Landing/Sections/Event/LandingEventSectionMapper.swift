@@ -22,7 +22,7 @@ open class LandingEventSectionMapper: LandingEventSectionMapperContract {
     public required init() {}
 
     public enum ViewState {
-        case show([LandingEntryModel])
+        case show([EventEntryModel])
         case hidden
     }
 

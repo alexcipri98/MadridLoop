@@ -13,8 +13,7 @@ import Foundation
 import CoreLocation
 
 public struct MapView: View {
-    
-    private let userLocation: CLLocationCoordinate2D
+    private let userLocation: CLLocationCoordinate2D?
     private let places: [Location]
     private let iconName: String?
     private let action: ((String) -> Void)?
@@ -28,7 +27,7 @@ public struct MapView: View {
     
     @State private var pressedMarkerID: String? = nil
     
-    public init(userLocation: CLLocationCoordinate2D,
+    public init(userLocation: CLLocationCoordinate2D?,
                 places: [Location],
                 iconName: String? = "",
                 action: ((String) -> Void)? = nil) {
@@ -69,45 +68,11 @@ public struct MapView: View {
         .onAppear {
             position = .region(
                 MKCoordinateRegion(
-                    center: userLocation,
+                    center: userLocation ?? CLLocationCoordinate2D(latitude: 40.4168, longitude: -3.7038),
                     span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
                 )
             )
         }
         .ignoresSafeArea()
-    }
-}
-
-public struct Location: Identifiable {
-    public let id: String
-    let coordinate: CLLocationCoordinate2D
-    
-    init(id: String,
-         coordinate: CLLocationCoordinate2D) {
-        self.id = id
-        self.coordinate = coordinate
-    }
-}
-
-
-class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
-    private var locationManager = CLLocationManager()
-    
-    @Published var location: CLLocationCoordinate2D?
-    
-    override init() {
-        super.init()
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        location = locations.first?.coordinate
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("Error de ubicación: \(error.localizedDescription)")
     }
 }

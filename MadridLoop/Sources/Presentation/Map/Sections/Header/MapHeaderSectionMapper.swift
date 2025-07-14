@@ -1,5 +1,5 @@
 //
-//  LandingHeaderSectionMapper.swift
+//  MapHeaderSectionMapper.swift
 //  MadridLoop
 //
 //  Created by Alex Ciprian lopez on 13/7/25.
@@ -8,12 +8,12 @@
 import Combine
 import PresentationLayer
 
-public protocol LandingHeaderSectionMapperContract: SectionMapperContract {}
+public protocol MapHeaderSectionMapperContract: SectionMapperContract {}
 
-open class LandingHeaderSectionMapper: LandingHeaderSectionMapperContract {
-    public typealias RenderModel = LandingHeaderSectionRenderModel
+open class MapHeaderSectionMapper: MapHeaderSectionMapperContract {
+    public typealias RenderModel = MapHeaderSectionRenderModel
     
-    public typealias ViewModel = LandingHeaderSectionViewModelContract
+    public typealias ViewModel = MapHeaderSectionViewModelContract
     
     public typealias ObservedModel = Bool
 
@@ -25,8 +25,8 @@ open class LandingHeaderSectionMapper: LandingHeaderSectionMapperContract {
         viewModel.loadingPublisher.eraseToAnyPublisher()
     }
     
-    public func map(_ model: Bool) -> LandingHeaderSectionRenderModel {
-        model ? LandingHeaderSectionRenderModel.hidden : .show(title: "Eventos Madrid")
+    public func map(_ model: Bool) -> MapHeaderSectionRenderModel {
+        model ? MapHeaderSectionRenderModel.hidden : .show(title: "Mapa de Madrid")
     }
     
 }

@@ -8,5 +8,5 @@
 import DependencyInjector
 
 public protocol GetEventsCalendarRepositoryContract: Instanciable {
-    func getEventsCalendar() async throws -> [LandingEntryModel]
+    func getEventsCalendar() async throws -> [EventEntryModel]
 }

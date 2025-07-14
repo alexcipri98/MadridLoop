@@ -41,6 +41,15 @@ struct LandingEventSectionView: ModularSection {
         case .hidden:
             EmptyView()
         case .show(let entries):
+            HStack {
+                Spacer()
+                Button("Ver en mapa") {
+                    viewModel.lookInMapEventsTapped()
+                }
+                .font(.footnote)
+                .padding(.trailing, 16)
+                .padding(.top, 10)
+            }
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 16) {
                     ForEach(entries.indices, id: \.self) { index in

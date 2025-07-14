@@ -27,9 +27,12 @@ open class LandingViewModel: LandingHeaderSectionViewModelContract,
                              LandingViewModelContract {
 
     public let getEventsCalendarUseCase: GetEventsCalendarUseCaseContract
+    public let navigationBuilder: LandingNavigationBuilderContract
 
     public required init(){
         @Injected var getEventsCalendarUseCase: GetEventsCalendarUseCaseContract
+        @Injected var navigationBuilder: LandingNavigationBuilderContract
+        self.navigationBuilder = navigationBuilder
         self.getEventsCalendarUseCase = getEventsCalendarUseCase
     }
 
@@ -37,7 +40,7 @@ open class LandingViewModel: LandingHeaderSectionViewModelContract,
 
     @Published public var loadingPublished: Bool = false
     @Published public var errorPublished: Bool = false
-    @Published public var entriesPublished: [LandingEntryModel] = []
+    @Published public var entriesPublished: [EventEntryModel] = []
 
     public var loadingPublisher: AnyPublisher<Bool, Never> {
         $loadingPublished.eraseToAnyPublisher()
@@ -47,11 +50,10 @@ open class LandingViewModel: LandingHeaderSectionViewModelContract,
         $errorPublished.eraseToAnyPublisher()
     }
     
-    public var entriesPublisher: AnyPublisher<[LandingEntryModel], Never> {
+    public var entriesPublisher: AnyPublisher<[EventEntryModel], Never> {
         $entriesPublished.eraseToAnyPublisher()
     }
 
-    // Dependencies
     @Dependency public var identifier: String
 
     open func setupDependencies(_ dependencies: LandingViewModelDependencies) {
@@ -59,13 +61,27 @@ open class LandingViewModel: LandingHeaderSectionViewModelContract,
     }
     
     open func notifyAppearance() {
-        print("Notify Appearance")
         loadInitialData()
     }
 
     open func getEventForEntries() {}
     
     open func entryTapped(at index: Int) {}
+
+    open func lookInMapEventsTapped() {
+        var places = [Location]()
+        for entry in entriesPublished {
+            if let location = Location.fromEventToLocation(entry) {
+                places.append(location)
+            }
+        }
+        let navigationModel = MapScreenNavigationModel(identifier: identifier,
+                                                       places: places,
+                                                       action: { identifier in
+            print("Tapped" + identifier)
+        })
+        navigationBuilder.navigateToMapScreen(mapScreenNavigationModel: navigationModel)
+    }
 }
 
 private extension LandingViewModel {

@@ -8,12 +8,15 @@
 import Navigation
 
 public enum IncomingNavigation: NavigationInfo {
-    case entryPoint
+    case entryPoint(identifier: String)
+    case mapScreen(navigationModel: MapScreenNavigationModel)
 
     public var presentationType: PresentationType {
         switch self {
         case .entryPoint:
             return .goToRoot
+        case .mapScreen:
+            return .push
         }
     }
 }

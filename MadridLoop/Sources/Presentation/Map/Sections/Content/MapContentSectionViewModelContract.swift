@@ -7,9 +7,12 @@
 
 import Combine
 import PresentationLayer
+import MapKit
 
-public protocol MapHeaderSectionViewModelContract: ViewModelContract {
+public protocol MapContentSectionViewModelContract: ViewModelContract {
     var loadingPublisher: AnyPublisher<Bool, Never> { get }
+    var errorPublisher: AnyPublisher<Bool, Never> { get }
+    var locationPublisher: AnyPublisher<MapPresentationModel?, Never> { get }
 
-    func goBack()
+    func refreshUserLocation()
 }

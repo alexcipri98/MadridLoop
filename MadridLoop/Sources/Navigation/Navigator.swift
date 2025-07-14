@@ -23,6 +23,8 @@ public class Navigator: ScreenNavigator {
         switch navigationInfo {
         case .entryPoint:
             return LandingBuilder().setIdentifier("").build()
+        case .mapScreen(let navigationModel):
+            return MapBuilder().setNavigationModel(navigationModel).build()
         }
     }
 }

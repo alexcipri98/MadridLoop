@@ -11,5 +11,9 @@ final class DomainModule: ModuleContract {
     static func inject() {
         DependencyContainer.shared.register(GetEventsCalendarUseCaseContract.self,
                                             GetEventsCalendarUseCase.self)
+        DependencyContainer.shared.register(GetUserLocationUseCaseContract.self,
+                                            GetUserLocationUseCase.self)
+        DependencyContainer.shared.register(UserLocationManagerContract.self,
+                                            UserLocationManager.self)
     }
 }
