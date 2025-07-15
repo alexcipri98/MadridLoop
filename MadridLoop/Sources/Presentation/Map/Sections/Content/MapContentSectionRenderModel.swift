@@ -10,6 +10,7 @@ import MapKit
 
 public enum MapContentSectionRenderModel {
     case hidden
+    case error
     case show(renderData: MapContentSectionRenderModelData)
 
     public struct MapContentSectionRenderModelData {

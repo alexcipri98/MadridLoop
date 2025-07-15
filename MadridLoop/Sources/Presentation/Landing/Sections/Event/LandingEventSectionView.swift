@@ -39,7 +39,7 @@ struct LandingEventSectionView: ModularSection {
     var main: some View {
         switch renderModel {
         case .hidden:
-            EmptyView()
+            LoadingView()
         case .show(let entries):
             HStack {
                 Spacer()

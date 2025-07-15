@@ -25,6 +25,8 @@ public class Navigator: ScreenNavigator {
             return LandingBuilder().setIdentifier("").build()
         case .mapScreen(let navigationModel):
             return MapBuilder().setNavigationModel(navigationModel).build()
+        case .informationMapModal(let navigationModel):
+            return InformationMapModalBuilder().setNavigationModel(navigationModel).build()
         }
     }
 }

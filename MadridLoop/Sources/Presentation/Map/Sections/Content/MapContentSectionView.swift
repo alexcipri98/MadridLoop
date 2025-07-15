@@ -36,15 +36,34 @@ struct MapContentSectionView: ModularSection {
     var main: some View {
         switch renderModel {
         case .hidden:
-            EmptyView()
+            LoadingView()
+        case .error:
+            VStack(spacing: 16) {
+                Text("No podemos acceder a tu ubicación.")
+                    .font(.body)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal)
+
+                Button(action: {
+                    viewModel.openSettings()
+                }) {
+                    Text("Abrir Ajustes")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.blue)
+                        .cornerRadius(10)
+                }
+                .padding(.horizontal)
+            }
+            .padding()
+            
         case .show(let data):
             MapView(userLocation: data.userLocation,
                     places: data.places,
                     iconName: data.iconName,
                     action: data.action)
-            .onAppear {
-                viewModel.refreshUserLocation()
-            }
         }
     }
 }

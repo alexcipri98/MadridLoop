@@ -10,6 +10,7 @@ import Navigation
 public enum IncomingNavigation: NavigationInfo {
     case entryPoint(identifier: String)
     case mapScreen(navigationModel: MapScreenNavigationModel)
+    case informationMapModal(navigationModel: InformationMapModalNavigationModel)
 
     public var presentationType: PresentationType {
         switch self {
@@ -17,6 +18,8 @@ public enum IncomingNavigation: NavigationInfo {
             return .goToRoot
         case .mapScreen:
             return .push
+        case .informationMapModal:
+            return .modal
         }
     }
 }

@@ -8,22 +8,25 @@
 import Navigation
 import DependencyInjector
 import PresentationLayer
+import UIKit
 
 public protocol MapNavigationBuilderContract: NavigationBuilder {
-    func navigateToPetDetail(petId: String)
+    func goToSettings()
     func goBack()
 }
 
 open class MapNavigationBuilder: MapNavigationBuilderContract {
     public required init() {}
-
-    public func navigateToPetDetail(petId: String) {}
     
     open func goBack() {
         self.goBack(animated: true, screen: nil, nil)
     }
 
-    public func goBack(animated: Bool, screen: (any Navigation.NavigationInfo)?, _ completion: (() -> Void)?) {
+    open func goToSettings() {
+        UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+    }
+
+    open func goBack(animated: Bool, screen: (any Navigation.NavigationInfo)?, _ completion: (() -> Void)?) {
         Router.shared.goBackTo(times: 1)
     }
 }

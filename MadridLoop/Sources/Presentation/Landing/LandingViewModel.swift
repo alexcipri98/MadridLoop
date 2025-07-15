@@ -77,8 +77,9 @@ open class LandingViewModel: LandingHeaderSectionViewModelContract,
         }
         let navigationModel = MapScreenNavigationModel(identifier: identifier,
                                                        places: places,
-                                                       action: { identifier in
-            print("Tapped" + identifier)
+                                                       action: { [weak self] identifier in
+            guard let self = self else { return }
+            self.eventTappedOnMap(identifier)
         })
         navigationBuilder.navigateToMapScreen(mapScreenNavigationModel: navigationModel)
     }
@@ -99,5 +100,20 @@ private extension LandingViewModel {
                 self.errorPublished = true
             }
         }
+    }
+
+    func eventTappedOnMap(_ identifier: String) {
+        guard let event = entriesPublished.first(where: { $0.id == identifier }),
+              let location = Location.fromEventToLocation(event) else {
+            errorPublished = true
+            return
+        }
+        let informationMapModalNavigationModel = InformationMapModalNavigationModel(title: event.title,
+                                                                                    description: event.description,
+                                                                                    location: location,
+                                                                                    link: event.link,
+                                                                                    startTime: event.dtStart)
+            
+        navigationBuilder.navigateToModal(informationMapModalNavigationModel)
     }
 }

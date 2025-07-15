@@ -23,6 +23,7 @@ open class MapContentSectionMapper: MapContentSectionMapperContract {
 
     public enum ViewState {
         case show(MapPresentationModel)
+        case error
         case hidden
     }
 
@@ -32,8 +33,10 @@ open class MapContentSectionMapper: MapContentSectionMapperContract {
         let dataPublisher = viewModel.locationPublisher
 
         return Publishers.CombineLatest3(loadingPublisher, errorPublisher, dataPublisher).map { loader, error, data in
-            if loader || error {
+            if loader {
                 return .hidden
+            } else if error {
+                return .error
             } else {
                 if let data = data {
                     return .show(data)
@@ -54,6 +57,8 @@ open class MapContentSectionMapper: MapContentSectionMapperContract {
                                                                           action: entries.action)
             
             return .show(renderData: renderData)
+        case .error:
+            return .error
         case .hidden:
             return .hidden
         }

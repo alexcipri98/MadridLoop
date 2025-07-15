@@ -11,6 +11,7 @@ import PresentationLayer
 
 public protocol LandingNavigationBuilderContract: NavigationBuilder {
     func navigateToMapScreen(mapScreenNavigationModel: MapScreenNavigationModel)
+    func navigateToModal(_ informationMapModalNavigationModel: InformationMapModalNavigationModel)
     func goBack()
 }
 
@@ -25,6 +26,11 @@ open class LandingNavigationBuilder: LandingNavigationBuilderContract {
 
     open func navigateToMapScreen(mapScreenNavigationModel: MapScreenNavigationModel) {
         let navigationInfo = IncomingNavigation.mapScreen(navigationModel: mapScreenNavigationModel)
+        Router.shared.navigateTo(navigationInfo)
+    }
+
+    open func navigateToModal(_ informationMapModalNavigationModel: InformationMapModalNavigationModel) {
+        let navigationInfo = IncomingNavigation.informationMapModal(navigationModel: informationMapModalNavigationModel)
         Router.shared.navigateTo(navigationInfo)
     }
 

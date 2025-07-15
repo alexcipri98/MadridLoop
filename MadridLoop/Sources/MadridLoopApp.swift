@@ -19,6 +19,9 @@ struct MadridLoopApp: App {
         MapModule.inject()
         MapContentSectionModule.inject()
         MapHeaderSectionModule.inject()
+        InformationMapModalModule.inject()
+        InformationMapModalHeaderSectionModule.inject()
+        InformationMapModalContentSectionModule.inject()
         Router.shared.setRoot(IncomingNavigation.entryPoint(identifier: ""))
     }
 

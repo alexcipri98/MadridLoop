@@ -17,16 +17,16 @@ public struct MapView: View {
     private let places: [Location]
     private let iconName: String?
     private let action: ((String) -> Void)?
-    
+
     @State private var position = MapCameraPosition.region(
         MKCoordinateRegion(
             center: CLLocationCoordinate2D(latitude: 0, longitude: 0),
             span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
         )
     )
-    
+
     @State private var pressedMarkerID: String? = nil
-    
+
     public init(userLocation: CLLocationCoordinate2D?,
                 places: [Location],
                 iconName: String? = "",
@@ -41,7 +41,7 @@ public struct MapView: View {
         Map(position: $position) {
             UserAnnotation()
             ForEach(places) { location in
-                Annotation("Seleccionado", coordinate: location.coordinate) {
+                Annotation("Evento", coordinate: location.coordinate) {
                     Button(action: {
                         pressedMarkerID = location.id
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {

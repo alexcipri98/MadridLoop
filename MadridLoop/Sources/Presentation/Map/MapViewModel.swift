@@ -26,14 +26,14 @@ open class MapViewModel: MapHeaderSectionViewModelContract,
                          MapContentSectionViewModelContract,
                          MapViewModelContract {
 
-    public let getUserLocationUseCase: GetUserLocationUseCaseContract
     public let navigationBuilder: MapNavigationBuilderContract
+    public let locationManager: UserLocationManagerContract
 
     public required init(){
-        @Injected var getUserLocationUseCase: GetUserLocationUseCaseContract
+        @Injected var locationManager: UserLocationManagerContract
         @Injected var navigationBuilder: MapNavigationBuilderContract
         self.navigationBuilder = navigationBuilder
-        self.getUserLocationUseCase = getUserLocationUseCase
+        self.locationManager = locationManager
     }
 
     //init() {}
@@ -59,22 +59,30 @@ open class MapViewModel: MapHeaderSectionViewModelContract,
     open func setupDependencies(_ dependencies: MapViewModelDependencies) {
         self.navigationModel = dependencies.navigationModel
     }
-    
+    private var cancellables = Set<AnyCancellable>()
+
     open func notifyAppearance() {
-        refreshUserLocation()
+        locationManager.locationPublisher
+                .compactMap { $0 } // omite nils
+                .first() // solo la primera ubicación válida
+                .sink { [weak self] location in
+                    guard let self = self else { return }
+                    self.locationPublished = MapPresentationModel(
+                        userLocation: location,
+                        identifier: self.navigationModel.identifier,
+                        places: self.navigationModel.places,
+                        iconName: self.navigationModel.iconName,
+                        action: self.navigationModel.action
+                    )
+                }
+                .store(in: &cancellables)
     }
 
     open func goBack() {
         navigationBuilder.goBack()
     }
-    
-    open func refreshUserLocation() {
-        let params = GetUserLocationUseCaseParameters()
-        let userLocation = getUserLocationUseCase.run(params)
-        locationPublished = MapPresentationModel(userLocation: userLocation,
-                                                 identifier: navigationModel.identifier,
-                                                 places: navigationModel.places,
-                                                 iconName: navigationModel.iconName,
-                                                 action: navigationModel.action)
+
+    open func openSettings() {
+        navigationBuilder.goToSettings()
     }
 }

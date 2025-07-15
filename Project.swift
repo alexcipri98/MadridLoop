@@ -8,14 +8,14 @@ let project = Project(
             destinations: .iOS,
             product: .app,
             bundleId: "com.alexciprian.MadridLoop",
-            infoPlist: .extendingDefault(
-                with: [
-                    "UILaunchScreen": [
-                        "UIColorName": "",
-                        "UIImageName": "",
-                    ],
-                ]
-            ),
+            infoPlist: .extendingDefault(with: [
+                "UILaunchScreen": [
+                    "UIColorName": "",
+                    "UIImageName": "",
+                ],
+                "NSLocationWhenInUseUsageDescription": "Necesitamos tu ubicación para mostrar contenido local.",
+                "NSLocationAlwaysUsageDescription": "Permite a la app acceder a tu ubicación incluso en segundo plano.",
+            ]),
             sources: ["MadridLoop/Sources/**"],
             resources: ["MadridLoop/Resources/**"],
             dependencies: [

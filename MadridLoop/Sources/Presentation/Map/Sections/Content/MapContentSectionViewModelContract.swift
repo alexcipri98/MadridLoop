@@ -14,5 +14,5 @@ public protocol MapContentSectionViewModelContract: ViewModelContract {
     var errorPublisher: AnyPublisher<Bool, Never> { get }
     var locationPublisher: AnyPublisher<MapPresentationModel?, Never> { get }
 
-    func refreshUserLocation()
+    func openSettings()
 }
