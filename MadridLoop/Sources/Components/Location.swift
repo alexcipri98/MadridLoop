@@ -28,4 +28,12 @@ open class Location: Identifiable {
         )
         return Location(id: event.id, coordinate: coordinate)
     }
+
+    static func fromDogToLocation(_ dog: DogsInformationModel) -> Location? {
+        let coordinate = CLLocationCoordinate2D(
+            latitude: dog.location.latitude,
+            longitude: dog.location.longitude
+        )
+        return Location(id: dog.id, coordinate: coordinate)
+    }
 }

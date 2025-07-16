@@ -7,18 +7,29 @@
 
 import DependencyInjector
 
-open class MadridRemoteDataSource: GetEventsCalendarRemoteDataSourceContract {
-    let madridAPI: MadridAPIContract
-    let mapper: LandingEntriesEntityMapperContract
+open class MadridRemoteDataSource: GetEventsCalendarRemoteDataSourceContract,
+                                   GetDogsInformationRemoteDataSourceContract {
+
+    public let madridAPI: MadridAPIContract
+    public let landingEntriesMapper: LandingEntriesEntityMapperContract
+    public let dogsInformationMapper: DogsInformationEntityMapperContract
+
     public required init() {
         @Injected var madridAPI: MadridAPIContract
-        @Injected var mapper: LandingEntriesEntityMapperContract
+        @Injected var landingEntriesMapper: LandingEntriesEntityMapperContract
+        @Injected var dogsInformationMapper: DogsInformationEntityMapperContract
         self.madridAPI = madridAPI
-        self.mapper = mapper
+        self.landingEntriesMapper = landingEntriesMapper
+        self.dogsInformationMapper = dogsInformationMapper
     }
 
-    public func getEventsCalendar() async throws -> LandingEntriesEntity {
+    open func getEventsCalendar() async throws -> LandingEntriesEntity {
         let data = try await madridAPI.getEventsCalendar().execute()
-        return try mapper.map(data)
+        return try landingEntriesMapper.map(data)
+    }
+
+    open func getDogsTrashInformation(postalCode: String) async throws -> DogTrashEntity {
+        let data = try await madridAPI.getDogsInformation(postalCode: postalCode).execute()
+        return try dogsInformationMapper.map(data)
     }
 }

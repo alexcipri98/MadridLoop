@@ -26,7 +26,7 @@ open class LandingHeaderSectionMapper: LandingHeaderSectionMapperContract {
     }
     
     public func map(_ model: Bool) -> LandingHeaderSectionRenderModel {
-        model ? LandingHeaderSectionRenderModel.hidden : .show(title: "Eventos Madrid")
+        model ? LandingHeaderSectionRenderModel.hidden : .show(title: "MadridLoop")
     }
     
 }

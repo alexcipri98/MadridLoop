@@ -24,16 +24,20 @@ public protocol LandingViewModelContract: ViewModelContract {
 
 open class LandingViewModel: LandingHeaderSectionViewModelContract,
                              LandingEventSectionViewModelContract,
+                             LandingDogSectionViewModelContract,
                              LandingViewModelContract {
 
     public let getEventsCalendarUseCase: GetEventsCalendarUseCaseContract
+    public let getDogsInformationUseCase: GetDogsInformationUseCaseContract
     public let navigationBuilder: LandingNavigationBuilderContract
 
     public required init(){
         @Injected var getEventsCalendarUseCase: GetEventsCalendarUseCaseContract
+        @Injected var getDogsInformationUseCase: GetDogsInformationUseCaseContract
         @Injected var navigationBuilder: LandingNavigationBuilderContract
         self.navigationBuilder = navigationBuilder
         self.getEventsCalendarUseCase = getEventsCalendarUseCase
+        self.getDogsInformationUseCase = getDogsInformationUseCase
     }
 
     //init() {}
@@ -82,6 +86,35 @@ open class LandingViewModel: LandingHeaderSectionViewModelContract,
             self.eventTappedOnMap(identifier)
         })
         navigationBuilder.navigateToMapScreen(mapScreenNavigationModel: navigationModel)
+    }
+
+    open func lookInMapDogsTapped() {
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            defer {
+                self.loadingPublished = false
+            }
+            do {
+                let params = GetDogsInformationUseCaseParameters(userPostalCode: "28028")
+                let dogsTrashes = try await getDogsInformationUseCase.run(params)
+                var places = [Location]()
+                for entry in dogsTrashes {
+                    if let location = Location.fromDogToLocation(entry) {
+                        places.append(location)
+                    }
+                }
+                let navigationModel = MapScreenNavigationModel(identifier: identifier,
+                                                               places: places,
+                                                               iconName: "pawprint.fill",
+                                                               action: { [weak self] identifier in
+                    guard let self = self else { return }
+                    self.eventTappedOnMap(identifier)
+                })
+                navigationBuilder.navigateToMapScreen(mapScreenNavigationModel: navigationModel)
+            } catch {
+                self.errorPublished = true
+            }
+        }
     }
 }
 

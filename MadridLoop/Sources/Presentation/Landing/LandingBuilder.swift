@@ -69,6 +69,17 @@ open class LandingBuilder {
         } else {
             EmptyView()
         }
+        @Injected var mapperDog: any LandingDogSectionMapperContract
+        if let mapperInstance = mapperDog as? LandingDogSectionMapper {
+            let publisher = mapperInstance.getObservedPublisher(viewModel as! LandingDogSectionViewModelContract)
+            let renderPublisher = publisher.map { domainModel in
+                mapperInstance.map(domainModel)
+            }.eraseToAnyPublisher()
+            LandingDogSectionView(publisher: renderPublisher,
+                                      viewModel: viewModel as! LandingDogSectionViewModelContract)
+        } else {
+            EmptyView()
+        }
     }
 
     @ViewBuilder

@@ -14,6 +14,7 @@ struct MadridLoopApp: App {
         LandingModule.inject()
         LandingEventSectionModule.inject()
         LandingHeaderSectionModule.inject()
+        LandingDogSectionModule.inject()
         DataModule.inject()
         DomainModule.inject()
         MapModule.inject()
