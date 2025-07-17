@@ -10,7 +10,7 @@ import DataLayer
 
 public protocol MadridAPIContract: Instanciable {
     func getEventsCalendar() -> HTTPAPIContract
-    func getDogsInformation(postalCode: String) -> HTTPAPIContract
+    func getDogsInformation(distrit: String) -> HTTPAPIContract
 }
 
 open class MadridAPI: MadridAPIContract {
@@ -20,8 +20,8 @@ open class MadridAPI: MadridAPIContract {
         GetEventsCalendar()
     }
 
-    open func getDogsInformation(postalCode: String) -> HTTPAPIContract {
-        GetDogsInformation(cod_postal: postalCode)
+    open func getDogsInformation(distrit: String) -> HTTPAPIContract {
+        GetDogsInformation(distrit: distrit)
     }
 }
 
@@ -34,16 +34,16 @@ private extension MadridAPI {
     }
 
     struct GetDogsInformation: HTTPAPIContract {
-        private let cod_postal: String
+        private let distrit: String
 
-        public init(cod_postal: String) {
-            self.cod_postal = cod_postal
+        public init(distrit: String) {
+            self.distrit = distrit
         }
 
         public var method = "GET"
 
         public var path: String {
-            "https://datos.madrid.es/egob/catalogo/300081-12105312-papeleras-bolsas-excrementos.{responseContentType}?COD_POSTAL=\(cod_postal)"
+            "https://datos.madrid.es/egob/catalogo/300081-12105312-papeleras-bolsas-excrementos.{responseContentType}?pageSize=500&DISTRITO=\(distrit)"
         }
     }
 }

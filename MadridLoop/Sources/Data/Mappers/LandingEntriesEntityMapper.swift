@@ -29,9 +29,9 @@ open class LandingEntriesEntityMapper: LandingEntriesEntityMapperContract {
             let location: EventEntryModel.LocationModel = .init(latitude: i.location?.latitude ?? 0,
                                                                   longitude: i.location?.longitude ?? 0)
             let address: EventEntryModel.AddressModel = .init(district: "Madrid",
-                                                                locality: i.address?.area?.locality,
-                                                                postalCode: i.address?.area?.postalCode,
-                                                                streetAddress: i.address?.area?.streetAddress)
+                                                              locality: i.address?.area?.locality,
+                                                              postalCode: i.address?.area?.postalCode,
+                                                              streetAddress: i.address?.area?.streetAddress)
             result.append(EventEntryModel(id: i.id ?? "",
                                             title: i.title ?? "",
                                             description: i.description ?? "",

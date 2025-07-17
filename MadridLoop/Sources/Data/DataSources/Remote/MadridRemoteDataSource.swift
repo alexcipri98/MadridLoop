@@ -28,8 +28,8 @@ open class MadridRemoteDataSource: GetEventsCalendarRemoteDataSourceContract,
         return try landingEntriesMapper.map(data)
     }
 
-    open func getDogsTrashInformation(postalCode: String) async throws -> DogTrashEntity {
-        let data = try await madridAPI.getDogsInformation(postalCode: postalCode).execute()
+    open func getDogsTrashInformation(distrit: String) async throws -> DogTrashEntity {
+        let data = try await madridAPI.getDogsInformation(distrit: distrit).execute()
         return try dogsInformationMapper.map(data)
     }
 }

@@ -31,8 +31,8 @@ open class MadridRepository: GetEventsCalendarRepositoryContract,
         return try landingEntriesEntityMapper.map(entity)
     }
 
-    open func getDogsInformation(postalCode: String) async throws -> [DogsInformationModel] {
-        let entity = try await getDogsInformationRemoteDataSource.getDogsTrashInformation(postalCode: postalCode)
+    open func getDogsInformation(distrit: String) async throws -> [DogsInformationModel] {
+        let entity = try await getDogsInformationRemoteDataSource.getDogsTrashInformation(distrit: distrit)
         return try dogsInformationEntityMapper.map(entity)
     }
 }

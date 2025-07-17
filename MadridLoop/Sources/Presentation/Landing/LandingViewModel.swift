@@ -30,11 +30,14 @@ open class LandingViewModel: LandingHeaderSectionViewModelContract,
     public let getEventsCalendarUseCase: GetEventsCalendarUseCaseContract
     public let getDogsInformationUseCase: GetDogsInformationUseCaseContract
     public let navigationBuilder: LandingNavigationBuilderContract
+    public let getUserDistritCodeUseCase: GetUserDistritUseCaseContract
 
     public required init(){
         @Injected var getEventsCalendarUseCase: GetEventsCalendarUseCaseContract
         @Injected var getDogsInformationUseCase: GetDogsInformationUseCaseContract
         @Injected var navigationBuilder: LandingNavigationBuilderContract
+        @Injected var getUserDistritUseCase: GetUserDistritUseCaseContract
+        self.getUserDistritCodeUseCase = getUserDistritUseCase
         self.navigationBuilder = navigationBuilder
         self.getEventsCalendarUseCase = getEventsCalendarUseCase
         self.getDogsInformationUseCase = getDogsInformationUseCase
@@ -95,7 +98,10 @@ open class LandingViewModel: LandingHeaderSectionViewModelContract,
                 self.loadingPublished = false
             }
             do {
-                let params = GetDogsInformationUseCaseParameters(userPostalCode: "28028")
+                self.loadingPublished = true
+                let distritParams = GetUserDistritUseCaseParameters()
+                let distritCode = try await getUserDistritCodeUseCase.run(distritParams)
+                let params = GetDogsInformationUseCaseParameters(userPostalCode: distritCode)
                 let dogsTrashes = try await getDogsInformationUseCase.run(params)
                 var places = [Location]()
                 for entry in dogsTrashes {
@@ -127,6 +133,7 @@ private extension LandingViewModel {
                 self.loadingPublished = false
             }
             do {
+                self.loadingPublished = true
                 let params = GetEventsCalendarUseCaseParameters()
                 self.entriesPublished = try await getEventsCalendarUseCase.run(params)
             } catch {

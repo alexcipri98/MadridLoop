@@ -8,10 +8,10 @@
 import DependencyInjector
 
 open class GetDogsInformationUseCaseParameters {
-    public let userPostalCode: String
+    public let distrit: String
 
     public init(userPostalCode: String) {
-        self.userPostalCode = userPostalCode
+        self.distrit = userPostalCode
     }
 }
 
@@ -28,7 +28,7 @@ open class GetDogsInformationUseCase: GetDogsInformationUseCaseContract {
     }
     
     open func run(_ parameters: GetDogsInformationUseCaseParameters) async throws -> [DogsInformationModel] {
-        let response = try await repository.getDogsInformation(postalCode: parameters.userPostalCode)
+        let response = try await repository.getDogsInformation(distrit: parameters.distrit)
         return response
     }
 }

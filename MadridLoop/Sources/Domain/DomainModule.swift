@@ -13,6 +13,8 @@ final class DomainModule: ModuleContract {
                                             GetEventsCalendarUseCase.self)
         DependencyContainer.shared.register(GetDogsInformationUseCaseContract.self,
                                             GetDogsInformationUseCase.self)
+        DependencyContainer.shared.register(GetUserDistritUseCaseContract.self,
+                                            GetUserDistritUseCase.self)
         DependencyContainer.shared.register(UserLocationManagerContract.self,
                                             UserLocationManager.self)
     }
