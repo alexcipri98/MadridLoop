@@ -10,13 +10,11 @@ import Foundation
 open class MapScreenNavigationModel {
     public let identifier: String
     public let places: [Location]
-    public let iconName: String?
     public let action: ((String) -> Void)?
 
-    public init(identifier: String, places: [Location], iconName: String? = nil, action: ((String) -> Void)? = nil) {
+    public init(identifier: String, places: [Location], action: ((String) -> Void)? = nil) {
         self.identifier = identifier
         self.places = places
-        self.iconName = iconName
         self.action = action
     }
 }

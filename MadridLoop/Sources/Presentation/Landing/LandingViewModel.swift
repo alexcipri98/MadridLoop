@@ -11,7 +11,7 @@ import Combine
 
 open class LandingViewModelDependencies {
     public let identifier: String
-    
+
     public init(identifier: String) {
         self.identifier = identifier
     }
@@ -25,22 +25,26 @@ public protocol LandingViewModelContract: ViewModelContract {
 open class LandingViewModel: LandingHeaderSectionViewModelContract,
                              LandingEventSectionViewModelContract,
                              LandingDogSectionViewModelContract,
+                             LandingMarketsSectionViewModelContract,
                              LandingViewModelContract {
 
     public let getEventsCalendarUseCase: GetEventsCalendarUseCaseContract
     public let getDogsInformationUseCase: GetDogsInformationUseCaseContract
     public let navigationBuilder: LandingNavigationBuilderContract
     public let getUserDistritCodeUseCase: GetUserDistritUseCaseContract
+    public let getMarketsUseCase: GetMarketsUseCaseContract
 
     public required init(){
         @Injected var getEventsCalendarUseCase: GetEventsCalendarUseCaseContract
         @Injected var getDogsInformationUseCase: GetDogsInformationUseCaseContract
         @Injected var navigationBuilder: LandingNavigationBuilderContract
         @Injected var getUserDistritUseCase: GetUserDistritUseCaseContract
+        @Injected var getMarketsUseCase: GetMarketsUseCaseContract
         self.getUserDistritCodeUseCase = getUserDistritUseCase
         self.navigationBuilder = navigationBuilder
         self.getEventsCalendarUseCase = getEventsCalendarUseCase
         self.getDogsInformationUseCase = getDogsInformationUseCase
+        self.getMarketsUseCase = getMarketsUseCase
     }
 
     //init() {}
@@ -56,7 +60,7 @@ open class LandingViewModel: LandingHeaderSectionViewModelContract,
     public var errorPublisher: AnyPublisher<Bool, Never> {
         $errorPublished.eraseToAnyPublisher()
     }
-    
+
     public var entriesPublisher: AnyPublisher<[EventEntryModel], Never> {
         $entriesPublished.eraseToAnyPublisher()
     }
@@ -66,13 +70,13 @@ open class LandingViewModel: LandingHeaderSectionViewModelContract,
     open func setupDependencies(_ dependencies: LandingViewModelDependencies) {
         self.identifier = dependencies.identifier
     }
-    
+
     open func notifyAppearance() {
         loadInitialData()
     }
 
     open func getEventForEntries() {}
-    
+
     open func entryTapped(at index: Int) {}
 
     open func lookInMapEventsTapped() {
@@ -102,19 +106,51 @@ open class LandingViewModel: LandingHeaderSectionViewModelContract,
                 let distritParams = GetUserDistritUseCaseParameters()
                 let distritCode = try await getUserDistritCodeUseCase.run(distritParams)
                 let params = GetDogsInformationUseCaseParameters(userPostalCode: distritCode)
-                let dogsTrashes = try await getDogsInformationUseCase.run(params)
+                let dogsInformation = try await getDogsInformationUseCase.run(params)
                 var places = [Location]()
-                for entry in dogsTrashes {
+                for entry in dogsInformation {
                     if let location = Location.fromDogToLocation(entry) {
                         places.append(location)
                     }
                 }
                 let navigationModel = MapScreenNavigationModel(identifier: identifier,
                                                                places: places,
-                                                               iconName: "pawprint.fill",
                                                                action: { [weak self] identifier in
                     guard let self = self else { return }
                     self.eventTappedOnMap(identifier)
+                })
+                navigationBuilder.navigateToMapScreen(mapScreenNavigationModel: navigationModel)
+            } catch {
+                self.errorPublished = true
+            }
+        }
+    }
+
+    open func lookInMapMarketsTapped() {
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            defer {
+                self.loadingPublished = false
+            }
+            do {
+                self.loadingPublished = true
+                let params = GetMarketsUseCaseParameters()
+                let markets = try await getMarketsUseCase.run(params)
+                var places = [Location]()
+                for entry in markets {
+                    if let location = Location.fromMarketsToLocation(entry) {
+                        places.append(location)
+                    }
+                }
+                let navigationModel = MapScreenNavigationModel(identifier: identifier,
+                                                               places: places,
+                                                               action: { [weak self] identifier in
+                    guard let self = self else { return }
+                    if let market = markets.first(where: {$0.id == identifier}) {
+                        self.marketTappedOnMap(market)
+                    } else {
+                        self.errorPublished = true
+                    }
                 })
                 navigationBuilder.navigateToMapScreen(mapScreenNavigationModel: navigationModel)
             } catch {
@@ -154,6 +190,20 @@ private extension LandingViewModel {
                                                                                     link: event.link,
                                                                                     startTime: event.dtStart)
             
+        navigationBuilder.navigateToModal(informationMapModalNavigationModel)
+    }
+
+    func marketTappedOnMap(_ market: MarketInformationModel) {
+        var description = ""
+        if let index = market.services?.firstIndex(of: ".") {
+            description = String(market.services?[..<index] ?? "")
+        }
+        let location = Location.fromMarketsToLocation(market)
+        let informationMapModalNavigationModel = InformationMapModalNavigationModel(title: market.title ?? "Sin título",
+                                                                                    description: description,
+                                                                                    location: location,
+                                                                                    link: market.relation,
+                                                                                    schedule: market.schedule)
         navigationBuilder.navigateToModal(informationMapModalNavigationModel)
     }
 }

@@ -71,7 +71,6 @@ open class MapViewModel: MapHeaderSectionViewModelContract,
                         userLocation: location,
                         identifier: self.navigationModel.identifier,
                         places: self.navigationModel.places,
-                        iconName: self.navigationModel.iconName,
                         action: self.navigationModel.action
                     )
                 }

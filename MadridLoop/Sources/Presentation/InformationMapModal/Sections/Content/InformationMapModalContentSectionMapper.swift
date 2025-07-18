@@ -52,7 +52,8 @@ open class InformationMapModalContentSectionMapper: InformationMapModalContentSe
                                                                          description: content.description,
                                                                          location: content.location,
                                                                          link: content.link,
-                                                                         startTime: content.startTime)
+                                                                         startTime: content.startTime,
+                                                                         schedule: content.schedule)
             return .show(data)
         }
     }

@@ -62,7 +62,6 @@ struct MapContentSectionView: ModularSection {
         case .show(let data):
             MapView(userLocation: data.userLocation,
                     places: data.places,
-                    iconName: data.iconName,
                     action: data.action)
         }
     }

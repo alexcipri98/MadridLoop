@@ -1,13 +1,13 @@
 //
-//  DogTrashEntity.swift
+//  NormalFontsEntity.swift
 //  MadridLoop
 //
-//  Created by Alex Ciprian lopez on 15/7/25.
+//  Created by Alex Ciprian lopez on 17/7/25.
 //
 
 import Foundation
 
-open class DogTrashEntity: Decodable {
+open class NormalFontsEntity: Decodable {
     public let page: Int?
     public let pageSize: Int?
     public let totalRecords: Int?
@@ -20,10 +20,10 @@ open class DogTrashEntity: Decodable {
     public let `self`: String?
     public let contentMD5: String?
     public let sinEntrecomillar: Bool?
-    public let records: [TrashEntity]?
+    public let records: [NormalFountainEntity]?
 }
 
-open class TrashEntity: Decodable {
+open class NormalFountainEntity: Decodable {
     public let id: String?
     public let descClasificacion: String?
     public let codBarrio: String?
@@ -45,7 +45,8 @@ open class TrashEntity: Decodable {
     public let fechaInstalacion: String?
     public let codigoInterno: String?
     public let contratoCod: String?
-    public let tipo: String?
+    public let ubicacion: String?
+    public let uso: String?
     public let modelo: String?
 
     private enum CodingKeys: String, CodingKey {
@@ -70,7 +71,8 @@ open class TrashEntity: Decodable {
         case fechaInstalacion = "FECHA_INSTALACION"
         case codigoInterno = "CODIGO_INTERNO"
         case contratoCod = "CONTRATO_COD"
-        case tipo = "TIPO"
+        case ubicacion = "UBICACION"
+        case uso = "USO"
         case modelo = "MODELO"
     }
 }

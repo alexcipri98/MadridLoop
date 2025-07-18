@@ -17,5 +17,7 @@ final class DomainModule: ModuleContract {
                                             GetUserDistritUseCase.self)
         DependencyContainer.shared.register(UserLocationManagerContract.self,
                                             UserLocationManager.self)
+        DependencyContainer.shared.register(GetMarketsUseCaseContract.self,
+                                            GetMarketsUseCase.self)
     }
 }

@@ -53,7 +53,6 @@ open class MapContentSectionMapper: MapContentSectionMapperContract {
             let renderData = RenderModel.MapContentSectionRenderModelData(userLocation: entries.userLocation,
                                                                           identifier: entries.identifier,
                                                                           places: entries.places,
-                                                                          iconName: entries.iconName,
                                                                           action: entries.action)
             
             return .show(renderData: renderData)

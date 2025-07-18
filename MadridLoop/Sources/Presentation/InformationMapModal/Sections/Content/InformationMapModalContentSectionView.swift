@@ -42,13 +42,17 @@ struct InformationMapModalContentSectionView: ModularSection {
             LoadingView()
         case .show(let content):
             VStack(alignment: .leading, spacing: 24) {
-                Text(content.title)
-                    .font(.title2)
-                    .fontWeight(.bold)
-                    .padding(.bottom, 4)
-                
-                Text(content.description)
-                    .font(.body)
+                if let title = content.title {
+                    Text(title)
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .padding(.bottom, 4)
+                }
+
+                if let description = content.description {
+                    Text(description)
+                        .font(.body)
+                }
 
                 if let formatted = getFormattedStartTime(startTime: content.startTime) {
                     HStack {
@@ -59,18 +63,29 @@ struct InformationMapModalContentSectionView: ModularSection {
                     .foregroundColor(.gray)
                 }
 
-                Button(action: {
-                    viewModel.howToGoTapped()
-                }) {
-                    Label("Cómo llegar", systemImage: "map")
-                        .font(.headline)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
+                if let schedule = content.schedule {
+                    HStack {
+                        Image(systemName: "calendar")
+                        Text(schedule)
+                    }
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
                 }
-                .padding(.top, 16)
+
+                if let location = content.location {
+                    Button(action: {
+                        viewModel.howToGoTapped()
+                    }) {
+                        Label("Cómo llegar", systemImage: "map")
+                            .font(.headline)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
+                    .padding(.top, 16)
+                }
 
                 if let link = content.link,
                    let url = URL(string: link) {

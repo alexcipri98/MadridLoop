@@ -34,7 +34,6 @@ public struct InformationMapModalScreen<Top: View, Content: View, Bottom: View, 
             BackgroundView()
             VStack(spacing: 0) {
                 top
-
                 ScrollView {
                     VStack {
                         content

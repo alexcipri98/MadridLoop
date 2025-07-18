@@ -11,6 +11,9 @@ import DataLayer
 public protocol MadridAPIContract: Instanciable {
     func getEventsCalendar() -> HTTPAPIContract
     func getDogsInformation(distrit: String) -> HTTPAPIContract
+    func getNormalFonts(distrit: String) -> HTTPAPIContract
+    func getDogsFonts(distrit: String) -> HTTPAPIContract
+    func getMarkets() -> HTTPAPIContract
 }
 
 open class MadridAPI: MadridAPIContract {
@@ -22,6 +25,18 @@ open class MadridAPI: MadridAPIContract {
 
     open func getDogsInformation(distrit: String) -> HTTPAPIContract {
         GetDogsInformation(distrit: distrit)
+    }
+
+    open func getNormalFonts(distrit: String) -> any HTTPAPIContract {
+        GetNormalFonts(distrit: distrit)
+    }
+
+    open func getDogsFonts(distrit: String) -> any HTTPAPIContract {
+        GetDogsFonts(distrit: distrit)
+    }
+
+    open func getMarkets() -> any HTTPAPIContract {
+        GetMarkets()
     }
 }
 
@@ -44,6 +59,44 @@ private extension MadridAPI {
 
         public var path: String {
             "https://datos.madrid.es/egob/catalogo/300081-12105312-papeleras-bolsas-excrementos.{responseContentType}?pageSize=500&DISTRITO=\(distrit)"
+        }
+    }
+
+    struct GetNormalFonts: HTTPAPIContract {
+        private let distrit: String
+
+        public init(distrit: String) {
+            self.distrit = distrit
+        }
+        
+        public var method = "GET"
+        
+        public var path: String {
+            "https://datos.madrid.es/egob/catalogo/300051-12105179-fuentes.{responseContentType}?DISTRITO=\(distrit)"
+        }
+    }
+
+    struct GetDogsFonts: HTTPAPIContract {
+        private let distrit: String
+        
+        public init(distrit: String) {
+            self.distrit = distrit
+        }
+        
+        public var method = "GET"
+        
+        public var path: String {
+            "https://datos.madrid.es/egob/catalogo/50055-12105277-fuentes-mascotas.{responseContentType}?DISTRITO=\(distrit)"
+        }
+    }
+
+    struct GetMarkets: HTTPAPIContract {
+        public init() {}
+        
+        public var method = "GET"
+        
+        public var path: String {
+            "https://datos.madrid.es/egob/catalogo/202105-0-mercadillos.json"
         }
     }
 }

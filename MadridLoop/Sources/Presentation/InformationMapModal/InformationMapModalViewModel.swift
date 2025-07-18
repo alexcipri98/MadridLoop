@@ -67,7 +67,8 @@ open class InformationMapModalViewModel: InformationMapModalHeaderSectionViewMod
                                                                 description: navigationModel.description,
                                                                 location: navigationModel.location,
                                                                 link: navigationModel.link,
-                                                                startTime: navigationModel.startTime)
+                                                                startTime: navigationModel.startTime,
+                                                                schedule: navigationModel.schedule)
     }
 
     open func goBack() {
@@ -75,12 +76,15 @@ open class InformationMapModalViewModel: InformationMapModalHeaderSectionViewMod
     }
 
     open func howToGoTapped() {
-        let destination = navigationModel.location.coordinate
-        let placemark = MKPlacemark(coordinate: destination)
-        let mapItem = MKMapItem(placemark: placemark)
-        mapItem.name = "Destino"
-        mapItem.openInMaps(launchOptions: [
-            MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeWalking
-        ])
+        if let destination = navigationModel.location?.coordinate {
+            let placemark = MKPlacemark(coordinate: destination)
+            let mapItem = MKMapItem(placemark: placemark)
+            mapItem.name = "Destino"
+            mapItem.openInMaps(launchOptions: [
+                MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeWalking
+            ])
+        } else {
+            self.errorPublished = true
+        }
     }
 }
