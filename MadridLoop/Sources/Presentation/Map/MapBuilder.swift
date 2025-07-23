@@ -29,7 +29,7 @@ open class MapBuilder {
                              top: getTopView,
                              content: getContentView,
                              bottom: getBottomView,
-                             overlay: getLoaderOverlayView)
+                             overlay: getOverlayView)
     }
 
     open func setNavigationModel(_ navigationModel: MapScreenNavigationModel) -> MapBuilder {
@@ -38,8 +38,17 @@ open class MapBuilder {
     }
 
     @ViewBuilder
-    public func getLoaderOverlayView() -> some View {
-        EmptyView()
+    public func getOverlayView() -> some View {
+        @Injected var mapper: any MapFiltersSectionMapperContract
+        if let mapperInstance = mapper as? MapFiltersSectionMapper {
+            let publisher = mapperInstance.getObservedPublisher(viewModel as! MapFiltersSectionViewModelContract)
+            let renderPublisher = publisher.map { domainModel in
+                mapperInstance.map(domainModel)
+            }.eraseToAnyPublisher()
+            MapFiltersSectionView(publisher: renderPublisher, viewModel: viewModel as! MapFiltersSectionViewModelContract)
+        } else {
+            EmptyView()
+        }
     }
 
     @ViewBuilder

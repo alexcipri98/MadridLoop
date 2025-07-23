@@ -40,13 +40,13 @@ open class Location: Identifiable {
         )
         switch dog.typeOfElement {
         case .dogFont:
-            return Location(id: dog.id, iconName: "pawprint.fill", coordinate: coordinate)
+            return Location(id: dog.id, iconName: IconsNames.dogFont.rawValue, coordinate: coordinate)
         case .font:
-            return Location(id: dog.id, iconName: "drop.fill", coordinate: coordinate)
+            return Location(id: dog.id, iconName: IconsNames.normalFont.rawValue, coordinate: coordinate)
         case .park:
-            return Location(id: dog.id, iconName: "leaf.fill", coordinate: coordinate)
+            return Location(id: dog.id, iconName: IconsNames.park.rawValue, coordinate: coordinate)
         case .trash:
-            return Location(id: dog.id, iconName: "trash.fill", coordinate: coordinate)
+            return Location(id: dog.id, iconName: IconsNames.trash.rawValue, coordinate: coordinate)
         }
     }
 

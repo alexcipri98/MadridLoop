@@ -9,11 +9,13 @@ import Combine
 import PresentationLayer
 import MapKit
 
-public protocol MapContentSectionViewModelContract: ViewModelContract {
+public protocol MapFiltersSectionViewModelContract: ViewModelContract {
     var loadingPublisher: AnyPublisher<Bool, Never> { get }
     var errorPublisher: AnyPublisher<Bool, Never> { get }
     var locationPublisher: AnyPublisher<MapPresentationModel?, Never> { get }
     var filtersIsSelectedPublisher: AnyPublisher<[AvailableFilters: Bool], Never> { get }
 
     func openSettings()
+    func didSelectDate(date: Date)
+    func didToggleFilter(filter: AvailableFilters)
 }

@@ -24,7 +24,14 @@ public protocol MapViewModelContract: ViewModelContract {
 
 open class MapViewModel: MapHeaderSectionViewModelContract,
                          MapContentSectionViewModelContract,
-                         MapViewModelContract {
+                         MapViewModelContract,
+                         MapFiltersSectionViewModelContract {
+    public func didSelectDate(date: Date) {}
+    
+    open func didToggleFilter(filter: AvailableFilters) {
+        filtersIsSelectedPublished[filter]?.toggle()
+    }
+    
 
     public let navigationBuilder: MapNavigationBuilderContract
     public let locationManager: UserLocationManagerContract
@@ -41,6 +48,7 @@ open class MapViewModel: MapHeaderSectionViewModelContract,
     @Published public var loadingPublished: Bool = false
     @Published public var errorPublished: Bool = false
     @Published public var locationPublished: MapPresentationModel?
+    @Published public var filtersIsSelectedPublished: [AvailableFilters: Bool] = AvailableFilters.getEmptyFilters()
 
     public var loadingPublisher: AnyPublisher<Bool, Never> {
         $loadingPublished.eraseToAnyPublisher()
@@ -52,6 +60,10 @@ open class MapViewModel: MapHeaderSectionViewModelContract,
 
     public var locationPublisher: AnyPublisher<MapPresentationModel?, Never> {
         $locationPublished.eraseToAnyPublisher()
+    }
+
+    public var filtersIsSelectedPublisher: AnyPublisher<[AvailableFilters: Bool], Never> {
+        $filtersIsSelectedPublished.eraseToAnyPublisher()
     }
 
     @Dependency public var navigationModel: MapScreenNavigationModel

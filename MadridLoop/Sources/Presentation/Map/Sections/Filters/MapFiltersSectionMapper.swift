@@ -1,5 +1,5 @@
 //
-//  MapContentSectionMapper.swift
+//  MapFiltersSectionMapper.swift
 //  MadridLoop
 //
 //  Created by Alex Ciprian lopez on 13/7/25.
@@ -8,31 +8,31 @@
 import Combine
 import PresentationLayer
 
-public protocol MapContentSectionMapperContract: SectionMapperContract {}
+public protocol MapFiltersSectionMapperContract: SectionMapperContract {}
 
-open class MapContentSectionMapper: MapContentSectionMapperContract {
-    public typealias RenderModel = MapContentSectionRenderModel
+open class MapFiltersSectionMapper: MapFiltersSectionMapperContract {
+    public typealias RenderModel = MapFiltersSectionRenderModel
     
-    public typealias ViewModel = MapContentSectionViewModelContract
+    public typealias ViewModel = MapFiltersSectionViewModelContract
     
     public typealias ObservedModel = ViewState
-    
+
     @Dependency public var viewModel: any ViewModel
-    
+
     public required init() {}
-    
+
     public enum ViewState {
         case show(MapPresentationModel, [AvailableFilters: Bool])
         case error
         case hidden
     }
-    
+
     public func getObservedPublisher(_ viewModel: any ViewModel) -> AnyPublisher<ViewState, Never> {
         let loadingPublisher = viewModel.loadingPublisher
         let errorPublisher = viewModel.errorPublisher
         let dataPublisher = viewModel.locationPublisher
         let filterIsSelectedPublisher = viewModel.filtersIsSelectedPublisher
-        
+
         return Publishers.CombineLatest4(loadingPublisher, errorPublisher, dataPublisher, filterIsSelectedPublisher).map { loader, error, data, isfilterSelected in
             if loader {
                 return .hidden
@@ -48,24 +48,10 @@ open class MapContentSectionMapper: MapContentSectionMapperContract {
         }.eraseToAnyPublisher()
     }
     
-    public func map(_ model: ViewState) -> MapContentSectionRenderModel {
+    public func map(_ model: ViewState) -> MapFiltersSectionRenderModel {
         switch model {
         case .show(let entries, let isFilterSelected):
-            let places = entries.places.filter {
-                if $0.iconName == IconsNames.trash.rawValue {
-                    return isFilterSelected[.isTrashFilterSelected] ?? true
-                } else if $0.iconName == IconsNames.normalFont.rawValue {
-                    return isFilterSelected[.isNormalFontsFilterSelected] ?? true
-                } else if $0.iconName == IconsNames.dogFont.rawValue {
-                    return isFilterSelected[.isDogsFontsFilterSelected] ?? true
-                }
-                return true
-            }
-            let renderData = RenderModel.MapContentSectionRenderModelData(userLocation: entries.userLocation,
-                                                                          identifier: entries.identifier,
-                                                                          places: places,
-                                                                          action: entries.action,
-                                                                          isFilterSelected: isFilterSelected)
+            let renderData = RenderModel.MapFiltersSectionRenderModelData(filters: ["HOY"], isFilterSelected: isFilterSelected)
             
             return .show(renderData: renderData)
         case .error:
@@ -74,4 +60,5 @@ open class MapContentSectionMapper: MapContentSectionMapperContract {
             return .hidden
         }
     }
+    
 }

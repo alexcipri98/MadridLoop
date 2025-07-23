@@ -21,6 +21,7 @@ struct MadridLoopApp: App {
         MapModule.inject()
         MapContentSectionModule.inject()
         MapHeaderSectionModule.inject()
+        MapFiltersSectionModule.inject()
         InformationMapModalModule.inject()
         InformationMapModalHeaderSectionModule.inject()
         InformationMapModalContentSectionModule.inject()
