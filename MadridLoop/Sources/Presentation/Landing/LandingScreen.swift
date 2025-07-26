@@ -49,7 +49,6 @@ public struct LandingScreen<Top: View, Content: View, Bottom: View, Overlay: Vie
                             viewSize = $0.size
                         }
                 })
-                .padding(.vertical)
             }
             overlay
                 .edgesIgnoringSafeArea(.all)

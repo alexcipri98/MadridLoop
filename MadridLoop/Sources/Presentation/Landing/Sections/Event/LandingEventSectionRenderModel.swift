@@ -8,7 +8,8 @@
 import Foundation
 
 public enum LandingEventSectionRenderModel {
-    case hidden
+    case loading
+    case error
     case show([LandingEventDataRenderModel])
 
     public struct LandingEventDataRenderModel: Identifiable {

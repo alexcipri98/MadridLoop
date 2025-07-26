@@ -20,7 +20,7 @@ struct LandingEventSectionView: ModularSection {
     var viewModel: any ViewModel
     var publisher: AnyPublisher<RenderModel, Never>
 
-    @State var renderModel: RenderModel = .hidden
+    @State var renderModel: RenderModel = .loading
 
     init(publisher: AnyPublisher<LandingEventSectionRenderModel, Never>,
          viewModel: any ViewModel) {
@@ -38,7 +38,9 @@ struct LandingEventSectionView: ModularSection {
     @ViewBuilder
     var main: some View {
         switch renderModel {
-        case .hidden:
+        case .error:
+            EmptyView()
+        case .loading:
             LoadingView()
         case .show(let entries):
             VStack(alignment: .leading, spacing: 12) {

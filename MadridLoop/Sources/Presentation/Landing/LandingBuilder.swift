@@ -38,12 +38,12 @@ open class LandingBuilder {
     }
 
     @ViewBuilder
-    public func getLoaderOverlayView() -> some View {
+    open func getLoaderOverlayView() -> some View {
         EmptyView()
     }
 
     @ViewBuilder
-    public func getTopView() -> some View {
+    open func getTopView() -> some View {
         @Injected var mapper: any LandingHeaderSectionMapperContract
         if let mapperInstance = mapper as? LandingHeaderSectionMapper {
             let publisher = mapperInstance.getObservedPublisher(viewModel as! LandingHeaderSectionViewModelContract)
@@ -57,7 +57,9 @@ open class LandingBuilder {
     }
 
     @ViewBuilder
-    public func getContentView() -> some View {
+    open func getContentView() -> some View {
+        getErrorView()
+
         @Injected var mapperDog: any LandingDogSectionMapperContract
         if let mapperInstance = mapperDog as? LandingDogSectionMapper {
             let publisher = mapperInstance.getObservedPublisher(viewModel as! LandingDogSectionViewModelContract)
@@ -100,8 +102,24 @@ open class LandingBuilder {
     }
 
     @ViewBuilder
-    public func getBottomView() -> some View {
+    open func getBottomView() -> some View {
         EmptyView()
+    }
+
+    @ViewBuilder
+    open func getErrorView() -> some View {
+        @Injected var mapperDog: any LandingGenericErrorSectionMapperContract
+        if let mapperInstance = mapperDog as? LandingGenericErrorSectionMapper {
+            let publisher = mapperInstance.getObservedPublisher(viewModel as! LandingGenericErrorSectionViewModelContract)
+            let renderPublisher = publisher.map { domainModel in
+                mapperInstance.map(domainModel)
+            }.eraseToAnyPublisher()
+            LandingGenericErrorSectionView(publisher: renderPublisher,
+                                           viewModel: viewModel as! LandingGenericErrorSectionViewModelContract)
+            .padding(.vertical)
+        } else {
+            EmptyView()
+        }
     }
 }
 

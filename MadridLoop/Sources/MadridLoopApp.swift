@@ -25,6 +25,7 @@ struct MadridLoopApp: App {
         ListEventsHeaderSectionModule.inject()
         ListEventsFiltersSectionModule.inject()
         ListEventsContentSectionModule.inject()
+        GenericErrorSectionModule.inject()
         Router.shared.setRoot(IncomingNavigation.entryPoint(identifier: ""))
     }
 

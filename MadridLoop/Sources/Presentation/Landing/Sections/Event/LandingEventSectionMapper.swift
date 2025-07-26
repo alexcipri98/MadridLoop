@@ -23,7 +23,8 @@ open class LandingEventSectionMapper: LandingEventSectionMapperContract {
 
     public enum ViewState {
         case show([EventEntryModel])
-        case hidden
+        case loading
+        case error
     }
 
     public func getObservedPublisher(_ viewModel: any ViewModel) -> AnyPublisher<ObservedModel, Never> {
@@ -32,8 +33,10 @@ open class LandingEventSectionMapper: LandingEventSectionMapperContract {
         let dataPublisher = viewModel.entriesPublisher
 
         return Publishers.CombineLatest3(loadingPublisher, errorPublisher, dataPublisher).map { loader, error, data in
-            if loader || error {
-                return .hidden
+            if loader {
+                return .loading
+            } else if error {
+                return .error
             } else {
                 return .show(data)
             }
@@ -42,6 +45,8 @@ open class LandingEventSectionMapper: LandingEventSectionMapperContract {
     
     public func map(_ model: ObservedModel) -> LandingEventSectionRenderModel {
         switch model {
+        case .error:
+            return .error
         case .show(let entries):
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.S"
@@ -68,8 +73,8 @@ open class LandingEventSectionMapper: LandingEventSectionMapperContract {
                                                                       longitude: entry.location?.longitude))
             }
             return .show(result)
-        case .hidden:
-            return .hidden
+        case .loading:
+            return .loading
         }
     }
     

@@ -29,9 +29,12 @@ open class LandingMarketsSectionMapper: LandingMarketsSectionMapperContract {
     public func getObservedPublisher(_ viewModel: any ViewModel) -> AnyPublisher<ObservedModel, Never> {
         let dataPublisher = viewModel.marketsPublisher
         let loadingPublisher = viewModel.loadingPublisher
-        return Publishers.CombineLatest(dataPublisher,
-                                        loadingPublisher).map { data, loading in
-            if loading {
+        let errorPublisher = viewModel.errorPublisher
+
+        return Publishers.CombineLatest3(dataPublisher,
+                                        loadingPublisher,
+                                        errorPublisher).map { data, loading, error in
+            if loading || error {
                 return .hidden
             } else {
                 return .show(data)

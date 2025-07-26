@@ -70,7 +70,7 @@ struct MapFiltersSectionView: ModularSection {
                         }
                     }
                 }
-                .padding(.vertical, 16)
+                .padding(16)
                 .frame(maxWidth: .infinity, alignment: .topLeading)
                 .background(Color.white.opacity(0.95))
                 Spacer()

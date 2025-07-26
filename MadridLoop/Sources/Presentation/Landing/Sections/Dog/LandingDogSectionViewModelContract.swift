@@ -10,6 +10,7 @@ import PresentationLayer
 
 public protocol LandingDogSectionViewModelContract: ViewModelContract {
     var loadingPublisher: AnyPublisher<Bool, Never> { get }
+    var errorPublisher: AnyPublisher<Bool, Never> { get }
 
     func lookInMapDogsTapped()
 }

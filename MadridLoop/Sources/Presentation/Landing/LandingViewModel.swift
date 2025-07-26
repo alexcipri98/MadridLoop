@@ -26,6 +26,7 @@ open class LandingViewModel: LandingHeaderSectionViewModelContract,
                              LandingEventSectionViewModelContract,
                              LandingDogSectionViewModelContract,
                              LandingMarketsSectionViewModelContract,
+                             LandingGenericErrorSectionViewModelContract,
                              LandingViewModelContract {
 
     public let getEventsCalendarUseCase: GetEventsCalendarUseCaseContract
@@ -154,17 +155,22 @@ open class LandingViewModel: LandingHeaderSectionViewModelContract,
     open func lookInListEventsTapped() {
         navigationBuilder.navigateToListEvents()
     }
+
+    public func tryAgain() {
+        notifyAppearance()
+    }
 }
 
 private extension LandingViewModel {
     func loadInitialData() {
-        loadingPublished = true
+        self.loadingPublished = true
         Task { @MainActor [weak self] in
             guard let self else { return }
             defer {
                 self.loadingPublished = false
             }
             do {
+                self.errorPublished = false
                 self.loadingPublished = true
                 async let events: [EventEntryModel] = getEventsCalendarUseCase.run(GetEventsCalendarUseCaseParameters())
                 async let markets: [MarketInformationModel] = getMarketsUseCase.run(GetMarketsUseCaseParameters())

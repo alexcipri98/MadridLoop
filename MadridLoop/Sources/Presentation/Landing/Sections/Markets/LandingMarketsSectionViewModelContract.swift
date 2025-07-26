@@ -11,6 +11,7 @@ import PresentationLayer
 public protocol LandingMarketsSectionViewModelContract: ViewModelContract {
     var loadingPublisher: AnyPublisher<Bool, Never> { get }
     var marketsPublisher: AnyPublisher<[MarketInformationModel], Never> { get }
+    var errorPublisher: AnyPublisher<Bool, Never> { get }
 
     func lookInMapMarketsTapped()
 }

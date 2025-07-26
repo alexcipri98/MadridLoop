@@ -22,7 +22,13 @@ open class LandingDogSectionMapper: LandingDogSectionMapperContract {
     public required init() {}
 
     public func getObservedPublisher(_ viewModel: any ViewModel) -> AnyPublisher<Bool, Never> {
-        viewModel.loadingPublisher.eraseToAnyPublisher()
+        let loadingPublisher = viewModel.loadingPublisher
+        let errorPublisher = viewModel.errorPublisher
+
+        return Publishers.CombineLatest(loadingPublisher,
+                                        errorPublisher).map { loading, error in
+            return (loading || error)
+        }.eraseToAnyPublisher()
     }
     
     public func map(_ model: Bool) -> LandingDogSectionRenderModel {
