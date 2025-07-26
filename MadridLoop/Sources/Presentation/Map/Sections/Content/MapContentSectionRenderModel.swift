@@ -19,17 +19,20 @@ public enum MapContentSectionRenderModel {
         public let places: [Location]
         public let iconName: String?
         public let action: ((String) -> Void)?
+        public let isFilterSelected: [AvailableFilters: Bool]
 
         public init(userLocation: CLLocationCoordinate2D?,
                     identifier: String,
                     places: [Location],
                     iconName: String? = nil,
-                    action: ((String) -> Void)? = nil) {
+                    action: ((String) -> Void)? = nil,
+                    isFilterSelected: [AvailableFilters: Bool]) {
             self.userLocation = userLocation
             self.identifier = identifier
             self.places = places
             self.iconName = iconName
             self.action = action
+            self.isFilterSelected = isFilterSelected
         }
     }
 

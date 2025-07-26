@@ -16,4 +16,5 @@ public protocol LandingEventSectionViewModelContract: ViewModelContract {
     func getEventForEntries()
     func entryTapped(at index: Int)
     func lookInMapEventsTapped()
+    func lookInListEventsTapped()
 }

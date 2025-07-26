@@ -38,18 +38,28 @@ struct MapHeaderSectionView: ModularSection {
         case .hidden:
             EmptyView()
         case .show(let title):
-            HStack {
-                Button("< Atras") {
-                    viewModel.goBack()
-                }.foregroundColor(.white)
-                Spacer()
+            ZStack {
+                Color.blue
+                    .ignoresSafeArea()
+
+                HStack {
+                    Button(action: {
+                        viewModel.goBack()
+                    }) {
+                        Image(systemName: "chevron.left")
+                            .foregroundColor(.white)
+                            .imageScale(.large)
+                    }
+                    .padding(.leading)
+
+                    Spacer()
+                }
+
                 Text(title)
                     .font(.headline)
                     .foregroundColor(.white)
                     .padding(.vertical)
-                Spacer()
-            }.background(Color.blue)
-                .ignoresSafeArea()
+            }.frame(height: 50)
         }
     }
 }

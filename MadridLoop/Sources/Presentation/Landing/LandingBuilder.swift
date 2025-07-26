@@ -58,17 +58,6 @@ open class LandingBuilder {
 
     @ViewBuilder
     public func getContentView() -> some View {
-        @Injected var mapper: any LandingEventSectionMapperContract
-        if let mapperInstance = mapper as? LandingEventSectionMapper {
-            let publisher = mapperInstance.getObservedPublisher(viewModel as! LandingEventSectionViewModelContract)
-            let renderPublisher = publisher.map { domainModel in
-                mapperInstance.map(domainModel)
-            }.eraseToAnyPublisher()
-            LandingEventSectionView(publisher: renderPublisher,
-                                      viewModel: viewModel as! LandingEventSectionViewModelContract)
-        } else {
-            EmptyView()
-        }
         @Injected var mapperDog: any LandingDogSectionMapperContract
         if let mapperInstance = mapperDog as? LandingDogSectionMapper {
             let publisher = mapperInstance.getObservedPublisher(viewModel as! LandingDogSectionViewModelContract)
@@ -77,9 +66,37 @@ open class LandingBuilder {
             }.eraseToAnyPublisher()
             LandingDogSectionView(publisher: renderPublisher,
                                       viewModel: viewModel as! LandingDogSectionViewModelContract)
+            .padding(.vertical)
         } else {
             EmptyView()
         }
+
+        @Injected var mapper: any LandingEventSectionMapperContract
+        if let mapperInstance = mapper as? LandingEventSectionMapper {
+            let publisher = mapperInstance.getObservedPublisher(viewModel as! LandingEventSectionViewModelContract)
+            let renderPublisher = publisher.map { domainModel in
+                mapperInstance.map(domainModel)
+            }.eraseToAnyPublisher()
+            LandingEventSectionView(publisher: renderPublisher,
+                                      viewModel: viewModel as! LandingEventSectionViewModelContract)
+            .padding(.vertical)
+        } else {
+            EmptyView()
+        }
+
+        @Injected var mapperMarkets: any LandingMarketsSectionMapperContract
+        if let mapperMarketsInstance = mapperMarkets as? LandingMarketsSectionMapper {
+            let publisher = mapperMarketsInstance.getObservedPublisher(viewModel as! LandingMarketsSectionViewModelContract)
+            let renderPublisher = publisher.map { domainModel in
+                mapperMarketsInstance.map(domainModel)
+            }.eraseToAnyPublisher()
+            LandingMarketsSectionView(publisher: renderPublisher,
+                                      viewModel: viewModel as! LandingMarketsSectionViewModelContract)
+            .padding(.vertical)
+        } else {
+            EmptyView()
+        }
+
     }
 
     @ViewBuilder

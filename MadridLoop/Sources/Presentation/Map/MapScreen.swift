@@ -34,24 +34,13 @@ public struct MapScreen<Top: View, Content: View, Bottom: View, Overlay: View>: 
             BackgroundView()
             VStack(spacing: 0) {
                 top
-
-                ScrollView {
-                    VStack {
-                        content
-                    }.frame(minHeight: viewSize.height)
+                Spacer()
+                ZStack {
+                    content
+                    overlay
                 }
-                .background(GeometryReader { geometry in
-                    Color.clear
-                        .onAppear {
-                            viewSize = geometry.size
-                        }
-                        .onReceive(Just(geometry)) {
-                            viewSize = $0.size
-                        }
-                })
+                Spacer()
             }
-            overlay
-                .edgesIgnoringSafeArea(.all)
         }.onAppear {
             viewModel.notifyAppearance()
         }

@@ -8,5 +8,5 @@
 import DependencyInjector
 
 public protocol GetDogsInformationRepositoryContract: Instanciable {
-    func getDogsInformation(postalCode: String) async throws -> [DogsInformationModel]
+    func getDogsInformation(distrit: String) async throws -> [DogsInformationModel]
 }

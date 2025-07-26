@@ -16,6 +16,7 @@ public enum LandingEventSectionRenderModel {
         public let title: String
         public let description: String
         public let dateStart: String
+        public let dateEnd: String?
         public let location: String?
         public let isItFree: Bool
         public let link: String?
@@ -26,6 +27,7 @@ public enum LandingEventSectionRenderModel {
                     title: String,
                     description: String,
                     dateStart: String,
+                    dateEnd: String?,
                     isItFree: Bool,
                     location: String?,
                     link: String?,
@@ -35,6 +37,7 @@ public enum LandingEventSectionRenderModel {
             self.title = title
             self.description = description
             self.dateStart = dateStart
+            self.dateEnd = dateEnd
             self.isItFree = isItFree
             self.location = location
             self.link = link

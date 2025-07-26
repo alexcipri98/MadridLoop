@@ -8,5 +8,7 @@
 import DependencyInjector
 
 public protocol GetDogsInformationRemoteDataSourceContract: Instanciable {
-    func getDogsTrashInformation(postalCode: String) async throws -> DogTrashEntity
+    func getDogsTrashInformation(distrit: String) async throws -> DogTrashEntity
+    func getDogsFonts(district: String) async throws -> DogsFontsEntity
+    func getNormalFonts(district: String) async throws -> NormalFontsEntity
 }

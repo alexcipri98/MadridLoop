@@ -26,12 +26,21 @@ open class LandingEntriesEntityMapper: LandingEntriesEntityMapperContract {
         }
         var result: [EventEntryModel] = []
         for i in graph {
+            guard let endString = i.dtend else { continue }
+
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.S"
+            dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+
+            guard let endDate = dateFormatter.date(from: endString), endDate >= Date() else {
+                continue
+            }
             let location: EventEntryModel.LocationModel = .init(latitude: i.location?.latitude ?? 0,
                                                                   longitude: i.location?.longitude ?? 0)
             let address: EventEntryModel.AddressModel = .init(district: "Madrid",
-                                                                locality: i.address?.area?.locality,
-                                                                postalCode: i.address?.area?.postalCode,
-                                                                streetAddress: i.address?.area?.streetAddress)
+                                                              locality: i.address?.area?.locality,
+                                                              postalCode: i.address?.area?.postalCode,
+                                                              streetAddress: i.address?.area?.streetAddress)
             result.append(EventEntryModel(id: i.id ?? "",
                                             title: i.title ?? "",
                                             description: i.description ?? "",

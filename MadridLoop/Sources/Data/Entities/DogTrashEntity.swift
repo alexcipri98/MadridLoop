@@ -8,45 +8,45 @@
 import Foundation
 
 open class DogTrashEntity: Decodable {
-    public let page: Int
-    public let pageSize: Int
-    public let totalRecords: Int
-    public let pageRecords: Int
-    public let status: Int
-    public let responseDate: String
-    public let first: String
-    public let last: String
+    public let page: Int?
+    public let pageSize: Int?
+    public let totalRecords: Int?
+    public let pageRecords: Int?
+    public let status: Int?
+    public let responseDate: String?
+    public let first: String?
+    public let last: String?
     public let next: String?
-    public let `self`: String
-    public let contentMD5: String
-    public let sinEntrecomillar: Bool
-    public let records: [TrashEntity]
+    public let `self`: String?
+    public let contentMD5: String?
+    public let sinEntrecomillar: Bool?
+    public let records: [TrashEntity]?
 }
 
 open class TrashEntity: Decodable {
-    public let id: String
-    public let descClasificacion: String
-    public let codBarrio: String
-    public let barrio: String
-    public let codDistrito: String
-    public let distrito: String
-    public let estado: String
-    public let coordGisX: String
-    public let coordGisY: String
-    public let sistemaCoord: String
-    public let latitud: Double
-    public let longitud: Double
-    public let tipoVia: String
-    public let nomVia: String
-    public let numVia: String
-    public let codPostal: String
-    public let direccionAux: String
-    public let ndp: String
-    public let fechaInstalacion: String
-    public let codigoInterno: String
-    public let contratoCod: String
-    public let tipo: String
-    public let modelo: String
+    public let id: String?
+    public let descClasificacion: String?
+    public let codBarrio: String?
+    public let barrio: String?
+    public let codDistrito: String?
+    public let distrito: String?
+    public let estado: String?
+    public let coordGisX: String?
+    public let coordGisY: String?
+    public let sistemaCoord: String?
+    public let latitud: Double?
+    public let longitud: Double?
+    public let tipoVia: String?
+    public let nomVia: String?
+    public let numVia: String?
+    public let codPostal: String?
+    public let direccionAux: String?
+    public let ndp: String?
+    public let fechaInstalacion: String?
+    public let codigoInterno: String?
+    public let contratoCod: String?
+    public let tipo: String?
+    public let modelo: String?
 
     private enum CodingKeys: String, CodingKey {
         case id = "ID"

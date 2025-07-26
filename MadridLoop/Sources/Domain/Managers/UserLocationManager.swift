@@ -15,6 +15,7 @@ public protocol UserLocationManagerContract: Instanciable {
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error)
+    func waitForLocation() async throws -> CLLocationCoordinate2D
 }
 
 open class UserLocationManager: NSObject, ObservableObject, CLLocationManagerDelegate, UserLocationManagerContract {
@@ -45,5 +46,14 @@ open class UserLocationManager: NSObject, ObservableObject, CLLocationManagerDel
     
     open func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         locationError = error
+    }
+
+    public func waitForLocation() async throws -> CLLocationCoordinate2D {
+        for try await location in $location.values {
+            if let validLocation = location {
+                return validLocation
+            }
+        }
+        throw NSError(domain: "UserLocationManager", code: 1, userInfo: [NSLocalizedDescriptionKey: "No se pudo obtener la ubicación."])
     }
 }

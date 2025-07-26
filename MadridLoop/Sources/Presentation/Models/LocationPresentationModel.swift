@@ -8,7 +8,7 @@
 import Foundation
 import MapKit
 
-open class MapPresentationModel {
+open class LocationPresentationModel {
     public let userLocation: CLLocationCoordinate2D?
     public let identifier: String
     public let places: [Location]

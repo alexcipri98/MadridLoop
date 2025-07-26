@@ -10,12 +10,17 @@ import Foundation
 open class DogsInformationModel {
     let id: String
     let typeOfElement: TypeOfElementModel
-    let barrio: String
-    let distrito: String
+    let barrio: String?
+    let distrito: String?
     let location: LocationModel
-    let direction: String
+    let direction: String?
     
-    public init(id: String, typeOfElement: TypeOfElementModel, barrio: String, distrito: String, localization: LocationModel, direction: String) {
+    public init(id: String,
+                typeOfElement: TypeOfElementModel,
+                barrio: String?,
+                distrito: String?,
+                localization: LocationModel,
+                direction: String?) {
         self.id = id
         self.typeOfElement = typeOfElement
         self.barrio = barrio
@@ -38,6 +43,7 @@ open class DogsInformationModel {
     public enum TypeOfElementModel: String, Codable {
         case trash
         case font
+        case dogFont
         case park
     }
 }

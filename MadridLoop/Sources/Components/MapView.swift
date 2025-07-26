@@ -15,7 +15,6 @@ import CoreLocation
 public struct MapView: View {
     private let userLocation: CLLocationCoordinate2D?
     private let places: [Location]
-    private let iconName: String?
     private let action: ((String) -> Void)?
 
     @State private var position = MapCameraPosition.region(
@@ -29,11 +28,9 @@ public struct MapView: View {
 
     public init(userLocation: CLLocationCoordinate2D?,
                 places: [Location],
-                iconName: String? = "",
                 action: ((String) -> Void)? = nil) {
         self.userLocation = userLocation
         self.places = places
-        self.iconName = iconName
         self.action = action
     }
     
@@ -50,7 +47,7 @@ public struct MapView: View {
                         action?(location.id)
                     }) {
                         VStack {
-                            if let iconName = iconName, !iconName.isEmpty {
+                            if let iconName = location.iconName, !iconName.isEmpty {
                                 Image(systemName: iconName)
                                     .foregroundColor(pressedMarkerID == location.id ? .blue : .red)
                                     .imageScale(.large)

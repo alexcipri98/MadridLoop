@@ -10,9 +10,10 @@ import PresentationLayer
 import MapKit
 
 public protocol MapContentSectionViewModelContract: ViewModelContract {
-    var loadingPublisher: AnyPublisher<Bool, Never> { get }
     var errorPublisher: AnyPublisher<Bool, Never> { get }
-    var locationPublisher: AnyPublisher<MapPresentationModel?, Never> { get }
+    var locationPublisher: AnyPublisher<LocationPresentationModel?, Never> { get }
+    var filtersIsSelectedPublisher: AnyPublisher<[AvailableFilters: Bool], Never> { get }
+    var dateFilterPublisher: AnyPublisher<Date?, Never> { get }
 
     func openSettings()
 }
