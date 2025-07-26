@@ -48,7 +48,8 @@ struct MapFiltersSectionView: ModularSection {
                             if data.filters.contains(filter) {
                                 switch filter {
                                 case .date:
-                                    datePicker(data: data)
+                                    CustomDatePicker(action: viewModel.didSelectDate,
+                                                     selectedDate: $selectedDate)
                                 case .trash:
                                     if let value = data.isFilterSelected[.isTrashFilterSelected] {
                                         trashFilterButton(isTrashFilterSelected: value)
@@ -77,26 +78,6 @@ struct MapFiltersSectionView: ModularSection {
             }
             .frame(maxHeight: .infinity, alignment: .top)
         }
-    }
-
-    @ViewBuilder
-    func datePicker(data: RenderModel.MapFiltersSectionRenderModelData) -> some View {
-        DatePicker("",
-                   selection: Binding(
-                    get: {
-                        selectedDate ?? Date()
-                    },
-                    set: {
-                        selectedDate = $0
-                        viewModel.didSelectDate(date: $0)
-                    }
-                   ),
-                   displayedComponents: [.date]
-        )
-        .labelsHidden()
-        .datePickerStyle(.compact)
-        .frame(maxWidth: .infinity)
-        .background(RoundedRectangle(cornerRadius: 12).fill(Color.orange.opacity(0.9)))
     }
     
     @ViewBuilder

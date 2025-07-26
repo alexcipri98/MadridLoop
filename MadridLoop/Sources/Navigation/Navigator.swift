@@ -29,7 +29,8 @@ public class Navigator: ScreenNavigator {
             return InformationMapModalBuilder().setNavigationModel(navigationModel).build()
         case .listEvents:
             return ListEventsBuilder().build()
-        
+        case .listMerchants:
+            return ListMerchantsBuilder().build()
         }
     }
 }

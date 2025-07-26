@@ -1,5 +1,5 @@
 //
-//  ListEventsViewModel.swift
+//  ListMerchantsViewModel.swift
 //  MadridLoop
 //
 //  Created by Alex Ciprian lopez on 13/7/25.
@@ -10,45 +10,41 @@ import PresentationLayer
 import Combine
 import MapKit
 
-open class ListEventsViewModelDependencies {
+open class ListMerchantsViewModelDependencies {
     public init(identifier: String) {}
 }
 
-public protocol ListEventsViewModelContract: ViewModelContract {
-    func setupDependencies(_ dependencies: ListEventsViewModelDependencies)
+public protocol ListMerchantsViewModelContract: ViewModelContract {
+    func setupDependencies(_ dependencies: ListMerchantsViewModelDependencies)
     func notifyAppearance()
 }
 
-open class ListEventsViewModel: ListEventsHeaderSectionViewModelContract,
-                                ListEventsFiltersSectionViewModelContract,
-                                ListEventsContentSectionViewModelContract,
-                                ListEventsViewModelContract {
+open class ListMerchantsViewModel: ListMerchantsHeaderSectionViewModelContract,
+                                   ListMerchantsContentSectionViewModelContract,
+                                   ListMerchantsViewModelContract {
 
-    public let getEventsCalendarUseCase: GetEventsCalendarUseCaseContract
+    public let getMarketsCalendarUseCase: GetMarketsUseCaseContract
     public let getDogsInformationUseCase: GetDogsInformationUseCaseContract
-    public let navigationBuilder: ListEventsNavigationBuilderContract
+    public let navigationBuilder: ListMerchantsNavigationBuilderContract
     public let getUserDistritCodeUseCase: GetUserDistritUseCaseContract
     public let getMarketsUseCase: GetMarketsUseCaseContract
 
     public required init(){
-        @Injected var getEventsCalendarUseCase: GetEventsCalendarUseCaseContract
+        @Injected var getMarketsCalendarUseCase: GetMarketsUseCaseContract
         @Injected var getDogsInformationUseCase: GetDogsInformationUseCaseContract
-        @Injected var navigationBuilder: ListEventsNavigationBuilderContract
+        @Injected var navigationBuilder: ListMerchantsNavigationBuilderContract
         @Injected var getUserDistritUseCase: GetUserDistritUseCaseContract
         @Injected var getMarketsUseCase: GetMarketsUseCaseContract
         self.getUserDistritCodeUseCase = getUserDistritUseCase
         self.navigationBuilder = navigationBuilder
-        self.getEventsCalendarUseCase = getEventsCalendarUseCase
+        self.getMarketsCalendarUseCase = getMarketsCalendarUseCase
         self.getDogsInformationUseCase = getDogsInformationUseCase
         self.getMarketsUseCase = getMarketsUseCase
     }
 
-    //init() {}
-
     @Published public var loadingPublished: Bool = false
     @Published public var errorPublished: Bool = false
-    @Published public var filteredEntriesPublished: [EventEntryModel] = []
-    public var allEntries: [EventEntryModel] = []
+    @Published public var entriesPublished: [MarketInformationModel] = []
 
     public var loadingPublisher: AnyPublisher<Bool, Never> {
         $loadingPublished.eraseToAnyPublisher()
@@ -58,13 +54,13 @@ open class ListEventsViewModel: ListEventsHeaderSectionViewModelContract,
         $errorPublished.eraseToAnyPublisher()
     }
 
-    public var filteredEntriesPublisher: AnyPublisher<[EventEntryModel], Never> {
-        $filteredEntriesPublished.eraseToAnyPublisher()
+    public var entriesPublisher: AnyPublisher<[MarketInformationModel], Never> {
+        $entriesPublished.eraseToAnyPublisher()
     }
 
     @Dependency public var identifier: String
 
-    open func setupDependencies(_ dependencies: ListEventsViewModelDependencies) {}
+    open func setupDependencies(_ dependencies: ListMerchantsViewModelDependencies) {}
 
     open func notifyAppearance() {
         loadInitialData()
@@ -87,21 +83,9 @@ open class ListEventsViewModel: ListEventsHeaderSectionViewModelContract,
             MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeWalking
         ])
     }
-
-    open func didSelectDate(date: Date) {
-        let calendar = Calendar.current
-        self.filteredEntriesPublished = allEntries.filter { entry in
-            guard let startTime = entry.dtStart.parseStringToDate() else { return true }
-            if let endTime = entry.dtEnd?.parseStringToDate() {
-                return startTime <= date && date <= endTime
-            } else {
-                return calendar.isDate(startTime, equalTo: date, toGranularity: .day)
-            }
-        }
-    }
 }
 
-private extension ListEventsViewModel {
+private extension ListMerchantsViewModel {
     func loadInitialData() {
         loadingPublished = true
         Task { @MainActor [weak self] in
@@ -111,9 +95,8 @@ private extension ListEventsViewModel {
             }
             do {
                 self.loadingPublished = true
-                async let events: [EventEntryModel] = getEventsCalendarUseCase.run(GetEventsCalendarUseCaseParameters())
-                self.allEntries = try await events
-                self.filteredEntriesPublished = self.allEntries
+                async let markets: [MarketInformationModel] = getMarketsCalendarUseCase.run(GetMarketsUseCaseParameters())
+                self.entriesPublished = try await markets
             } catch {
                 self.errorPublished = true
             }

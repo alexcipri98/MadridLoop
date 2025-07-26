@@ -35,8 +35,8 @@ open class Location: Identifiable {
             latitude: lat,
             longitude: long
         )
-        let date = parseStartTimeToDate(event.dtStart)
-        let dateEnd = parseStartTimeToDate(event.dtEnd)
+        let date = event.dtStart.parseStringToDate()
+        let dateEnd = event.dtEnd?.parseStringToDate()
         return Location(id: event.id,
                         iconName: "mappin.circle.fill",
                         startTime: date,
@@ -82,13 +82,5 @@ open class Location: Identifiable {
         return Location(id: id,
                         iconName: "cart.fill",
                         coordinate: coordinate)
-    }
-
-    static func parseStartTimeToDate(_ startTime: String?) -> Date? {
-        guard let startTime = startTime else { return nil }
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss.S"
-        formatter.locale = Locale(identifier: "es_ES")
-        return formatter.date(from: startTime)
     }
 }

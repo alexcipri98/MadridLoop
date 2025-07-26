@@ -1,5 +1,5 @@
 //
-//  ListEventsContentViewModelContract.swift
+//  ListMerchantsContentViewModelContract.swift
 //  MadridLoop
 //
 //  Created by Alex Ciprian lopez on 13/7/25.
@@ -8,10 +8,10 @@
 import Combine
 import PresentationLayer
 
-public protocol ListEventsContentSectionViewModelContract: ViewModelContract {
+public protocol ListMerchantsContentSectionViewModelContract: ViewModelContract {
     var loadingPublisher: AnyPublisher<Bool, Never> { get }
     var errorPublisher: AnyPublisher<Bool, Never> { get }
-    var filteredEntriesPublisher: AnyPublisher<[EventEntryModel], Never> { get }
+    var entriesPublisher: AnyPublisher<[MarketInformationModel], Never> { get }
     
     func entryTapped(at index: Int)
     func howToGoTapped(lat: Double, lon: Double)
