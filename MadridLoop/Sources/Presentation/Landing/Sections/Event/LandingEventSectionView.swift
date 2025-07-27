@@ -146,11 +146,7 @@ struct LandingEventSectionView: ModularSection {
     }
     
     private func formattedDate(_ dateString: String) -> String {
-        let inputFormatter = DateFormatter()
-        inputFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.S"
-        inputFormatter.locale = Locale(identifier: "en_US_POSIX")
-        
-        if let date = inputFormatter.date(from: dateString) {
+        if let date = dateString.parseStringToDate() {
             let outputFormatter = DateFormatter()
             outputFormatter.dateFormat = "dd-MM-yyyy HH:mm"
             return outputFormatter.string(from: date)

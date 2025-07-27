@@ -45,9 +45,22 @@ struct LandingMarketsSectionView: ModularSection {
                         .fontWeight(.bold)
                     Spacer()
                     Button(action: {
+                        viewModel.lookInListMerchantsTapped()
+                    }) {
+                        Text("Ver listado")
+                            .font(.subheadline)
+                            .foregroundColor(.accentColor)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 6)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .stroke(Color.accentColor, lineWidth: 1)
+                            )
+                    }.padding(.trailing, 12)
+                    Button(action: {
                         viewModel.lookInMapMarketsTapped()
                     }) {
-                        Text("Ver en mapa")
+                        Text("Ver mapa")
                             .font(.subheadline)
                             .foregroundColor(.accentColor)
                             .padding(.horizontal, 8)

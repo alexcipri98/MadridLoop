@@ -156,7 +156,11 @@ open class LandingViewModel: LandingHeaderSectionViewModelContract,
         navigationBuilder.navigateToListEvents()
     }
 
-    public func tryAgain() {
+    open func lookInListMerchantsTapped() {
+        navigationBuilder.navigateToListMerchants()
+    }
+
+    open func tryAgain() {
         notifyAppearance()
     }
 }

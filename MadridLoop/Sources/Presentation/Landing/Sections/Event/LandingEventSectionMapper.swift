@@ -48,13 +48,9 @@ open class LandingEventSectionMapper: LandingEventSectionMapperContract {
         case .error:
             return .error
         case .show(let entries):
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.S"
-            dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-
             let sortedEntries = entries.sorted {
-                guard let date1 = dateFormatter.date(from: $0.dtStart),
-                      let date2 = dateFormatter.date(from: $1.dtStart) else {
+                guard let date1 = $0.dtStart.parseStringToDate(),
+                      let date2 = $1.dtStart.parseStringToDate() else {
                     return false
                 }
                 return date1 < date2

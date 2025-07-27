@@ -104,11 +104,7 @@ struct InformationMapModalContentSectionView: ModularSection {
     }
 
     func getFormattedStartTime(startTime: String?) -> String? {
-        guard let startTime = startTime else { return nil }
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss.S"
-        formatter.locale = Locale(identifier: "es_ES")
-        guard let date = formatter.date(from: startTime) else { return nil }
+        guard let date = startTime?.parseStringToDate() else { return nil }
         let outputFormatter = DateFormatter()
         outputFormatter.dateStyle = .medium
         outputFormatter.timeStyle = .short

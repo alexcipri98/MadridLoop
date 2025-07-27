@@ -13,5 +13,6 @@ public protocol LandingMarketsSectionViewModelContract: ViewModelContract {
     var marketsPublisher: AnyPublisher<[MarketInformationModel], Never> { get }
     var errorPublisher: AnyPublisher<Bool, Never> { get }
 
+    func lookInListMerchantsTapped()
     func lookInMapMarketsTapped()
 }

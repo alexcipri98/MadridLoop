@@ -28,11 +28,7 @@ open class LandingEntriesEntityMapper: LandingEntriesEntityMapperContract {
         for i in graph {
             guard let endString = i.dtend else { continue }
 
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.S"
-            dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-
-            guard let endDate = dateFormatter.date(from: endString), endDate >= Date() else {
+            guard let endDate = endString.parseStringToDate(), endDate >= Date() else {
                 continue
             }
             let location: EventEntryModel.LocationModel = .init(latitude: i.location?.latitude ?? 0,
