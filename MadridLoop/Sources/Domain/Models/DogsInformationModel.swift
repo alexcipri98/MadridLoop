@@ -7,7 +7,7 @@
 
 import Foundation
 
-open class DogsInformationModel {
+open class DogsInformationModel: Codable {
     let id: String
     let typeOfElement: TypeOfElementModel
     let barrio: String?
@@ -29,7 +29,7 @@ open class DogsInformationModel {
         self.direction = direction
     }
 
-    open class LocationModel {
+    open class LocationModel: Codable {
         let latitude: Double
         let longitude: Double
         

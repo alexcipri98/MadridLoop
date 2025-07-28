@@ -14,12 +14,20 @@ final class DataModule: ModuleContract {
                                             MadridAPI.self)
 
         // DataSources
+        // Remotes
         DependencyContainer.shared.register(GetEventsCalendarRemoteDataSourceContract.self,
                                             MadridRemoteDataSource.self)
         DependencyContainer.shared.register(GetDogsInformationRemoteDataSourceContract.self,
                                             MadridRemoteDataSource.self)
         DependencyContainer.shared.register(GetMarketsRemoteDataSourceContract.self,
                                             MadridRemoteDataSource.self)
+        // Locals
+        DependencyContainer.shared.register(EventsCalendarLocalDataSourceContract.self,
+                                            MadridLocalDataSource.self)
+        DependencyContainer.shared.register(DogsInformationLocalDataSourceContract.self,
+                                            MadridLocalDataSource.self)
+        DependencyContainer.shared.register(MarketsLocalDataSourceContract.self,
+                                            MadridLocalDataSource.self)
 
         // Mappers
         DependencyContainer.shared.register(LandingEntriesEntityMapperContract.self,

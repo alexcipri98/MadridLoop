@@ -7,7 +7,7 @@
 
 import Foundation
 
-open class EventEntryModel {
+open class EventEntryModel: Codable {
     let id: String
     let title: String
     let description: String
@@ -41,7 +41,7 @@ open class EventEntryModel {
         self.address = address
     }
 
-    open class LocationModel {
+    open class LocationModel: Codable {
         let latitude: Double
         let longitude: Double
         
@@ -52,7 +52,7 @@ open class EventEntryModel {
         }
     }
 
-    open class AddressModel {
+    open class AddressModel: Codable {
         let district: String?
         let locality: String?
         let postalCode: String?
