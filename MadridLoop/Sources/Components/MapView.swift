@@ -25,6 +25,7 @@ public struct MapView: View {
     )
 
     @State private var pressedMarkerID: String? = nil
+    @State private var selectedGroup: [Location]? = nil
 
     public init(userLocation: CLLocationCoordinate2D?,
                 places: [Location],
@@ -35,33 +36,71 @@ public struct MapView: View {
     }
     
     public var body: some View {
+        let groupedPlaces = Dictionary(grouping: places) { location in
+            "\(round(location.coordinate.latitude * 1e5)/1e5),\(round(location.coordinate.longitude * 1e5)/1e5)"
+        }
+
         Map(position: $position) {
             UserAnnotation()
-            ForEach(places) { location in
-                Annotation("Evento", coordinate: location.coordinate) {
-                    Button(action: {
-                        pressedMarkerID = location.id
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                            pressedMarkerID = nil
-                        }
-                        action?(location.id)
-                    }) {
-                        VStack {
-                            if let iconName = location.iconName, !iconName.isEmpty {
-                                Image(systemName: iconName)
-                                    .foregroundColor(pressedMarkerID == location.id ? .blue : .red)
-                                    .imageScale(.large)
+            ForEach(Array(groupedPlaces.values), id: \.first!.id) { group in
+                if let coordinate = group.first?.coordinate {
+                    Annotation("Evento", coordinate: coordinate) {
+                        Button(action: {
+                            if group.count == 1 {
+                                action?(group[0].id)
                             } else {
-                                Image(systemName: "mappin.circle.fill")
-                                    .foregroundColor(pressedMarkerID == location.id ? .blue : .red)
-                                    .imageScale(.large)
+                                selectedGroup = group
+                            }
+                        }) {
+                            VStack {
+                                if let iconName = group.first?.iconName, !iconName.isEmpty {
+                                    Image(systemName: iconName)
+                                        .foregroundColor(.red)
+                                        .imageScale(.large)
+                                } else {
+                                    Image(systemName: "mappin.circle.fill")
+                                        .foregroundColor(.red)
+                                        .imageScale(.large)
+                                }
                             }
                         }
+                        .buttonStyle(PlainButtonStyle())
                     }
-                    .buttonStyle(PlainButtonStyle())
                 }
             }
         }
+        .overlay(
+            Group {
+                if let group = selectedGroup {
+                    VStack(spacing: 12) {
+                        ForEach(group.sorted(by: { ($0.startTime ?? .distantFuture) < ($1.startTime ?? .distantFuture) }), id: \.id) { location in
+                            Button(action: {
+                                action?(location.id)
+                                selectedGroup = nil
+                            }) {
+                                HStack {
+                                    if let icon = location.iconName {
+                                        Image(systemName: icon)
+                                    }
+                                    Text(formattedDate(from: location.startTime))
+                                }
+                                .padding()
+                                .background(Color.white)
+                                .cornerRadius(8)
+                                .shadow(radius: 4)
+                            }
+                        }
+                        Button("Cerrar") {
+                            selectedGroup = nil
+                        }
+                        .foregroundColor(.white)
+                    }
+                    .padding()
+                    .background(Color.black.opacity(0.5))
+                    .cornerRadius(12)
+                }
+            }
+        )
         .onAppear {
             position = .region(
                 MKCoordinateRegion(
@@ -71,5 +110,13 @@ public struct MapView: View {
             )
         }
         .ignoresSafeArea()
+    }
+
+    private func formattedDate(from date: Date?) -> String {
+        guard let date = date else { return "Sin fecha" }
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
+        return formatter.string(from: date)
     }
 }

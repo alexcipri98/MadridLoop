@@ -7,7 +7,7 @@
 
 import Foundation
 
-open class MarketInformationModel {
+open class MarketInformationModel: Codable {
     public let id: String?
     public let title: String?
     public let services: String?
