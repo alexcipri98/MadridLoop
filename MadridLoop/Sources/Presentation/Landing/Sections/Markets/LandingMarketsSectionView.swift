@@ -10,28 +10,28 @@ import PresentationLayer
 import SwiftUI
 
 struct LandingMarketsSectionView: ModularSection {
-    
+
     typealias ViewModel = LandingMarketsSectionViewModelContract
     typealias RenderModel = LandingMarketsSectionRenderModel
-    
+
     var viewModel: any ViewModel
     var publisher: AnyPublisher<RenderModel, Never>
-    
+
     @State var renderModel: RenderModel = .hidden
-    
+
     init(publisher: AnyPublisher<LandingMarketsSectionRenderModel, Never>,
          viewModel: any ViewModel) {
         self.viewModel = viewModel
         self.publisher = publisher
     }
-    
+
     var body: some View {
         main
             .onReceive(publisher) {
                 renderModel = $0
             }
     }
-    
+
     @ViewBuilder
     var main: some View {
         switch renderModel {
@@ -94,7 +94,7 @@ struct LandingMarketsSectionView: ModularSection {
             .padding(.horizontal)
         }
     }
-    
+
     func entryView(_ event: RenderModel.LandingMarketsSectionData) -> some View {
         VStack(alignment: .leading, spacing: 10) {
             Text(event.title)
@@ -108,14 +108,14 @@ struct LandingMarketsSectionView: ModularSection {
                 .font(.subheadline)
                 .foregroundColor(.secondary)
                 .lineLimit(1)
-            
+
             Text("Inicio: \(event.date)")
                 .font(.footnote)
                 .foregroundColor(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
-            
+
             Spacer()
-            
+
             if let link = event.link, let url = URL(string: link) {
                 Link("Ver más", destination: url)
                     .font(.footnote.weight(.semibold))

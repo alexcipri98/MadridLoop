@@ -17,8 +17,12 @@ let project = Project(
                 "NSLocationAlwaysUsageDescription": "Permite a la app acceder a tu ubicación incluso en segundo plano.",
             ]),
             sources: ["MadridLoop/Sources/**"],
-            resources: ["MadridLoop/Resources/**"],
+            resources: ["MadridLoop/Resources/**",
+                       "MadridLoop/Resources/Configuration/GoogleService-Info.plist"],
             dependencies: [
+                .external(name: "FirebaseAnalytics"),
+                .external(name: "FirebaseFirestore"),
+                .external(name: "FirebaseInstallations"),
                 .xcframework(path: "Frameworks/DependencyInjector.xcframework"),
                 .xcframework(path: "Frameworks/DataLayer.xcframework"),
                 .xcframework(path: "Frameworks/PresentationLayer.xcframework"),

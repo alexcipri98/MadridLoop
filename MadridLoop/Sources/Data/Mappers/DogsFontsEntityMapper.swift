@@ -16,7 +16,8 @@ open class DogsFontsEntityMapper: DogsFontsEntityMapperContract {
     public required init() {}
 
     open func map(_ input: Data) throws -> DogsFontsEntity {
-        return try input.map(DogsFontsEntity.self)
+        let cleanedData = input.cleanedInvalidEscapes() ?? input
+        return try cleanedData.map(DogsFontsEntity.self)
     }
 
     open func map(_ input: DogsFontsEntity) throws -> [DogsInformationModel] {

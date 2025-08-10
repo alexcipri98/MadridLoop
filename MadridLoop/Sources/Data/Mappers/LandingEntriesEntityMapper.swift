@@ -16,7 +16,8 @@ open class LandingEntriesEntityMapper: LandingEntriesEntityMapperContract {
     public required init() {}
 
     open func map(_ input: Data) throws -> LandingEntriesEntity {
-        return try input.map(LandingEntriesEntity.self)
+        let cleanedData = input.cleanedInvalidEscapes() ?? input
+        return try cleanedData.map(LandingEntriesEntity.self)
     }
 
     open func map(_ input: LandingEntriesEntity) throws -> [EventEntryModel] {

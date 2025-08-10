@@ -18,6 +18,7 @@ open class LandingEntriesEntity: Codable {
 
 // MARK: - Event
 open class Event: Codable {
+    public let resourceId: String?
     public let id: String?
     public let title: String?
     public let description: String?
@@ -36,13 +37,16 @@ open class Event: Codable {
     public let location: GeoLocation?
     public let organization: Organization?
     public let recurrence: RecurrenceRule?
+    public let audience: String?
 
     enum CodingKeys: String, CodingKey {
+        case resourceId = "@id"
         case id, title, description, free, price, dtstart, dtend, time
         case excludedDays = "excluded-days"
         case uid, link
         case eventLocation = "event-location"
         case references, relation, address, location, organization, recurrence
+        case audience
     }
 }
 

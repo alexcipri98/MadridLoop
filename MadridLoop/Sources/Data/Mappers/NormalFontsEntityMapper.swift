@@ -17,7 +17,8 @@ open class NormalFontsEntityMapper: NormalFontsEntityMapperContract {
     public required init() {}
 
     open func map(_ input: Data) throws -> NormalFontsEntity {
-        return try input.map(NormalFontsEntity.self)
+        let cleanedData = input.cleanedInvalidEscapes() ?? input
+        return try cleanedData.map(NormalFontsEntity.self)
     }
 
     open func map(_ input: NormalFontsEntity) throws -> [DogsInformationModel] {

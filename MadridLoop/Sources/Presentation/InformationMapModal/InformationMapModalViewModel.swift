@@ -9,6 +9,7 @@ import DependencyInjector
 import PresentationLayer
 import Combine
 import MapKit
+import FirebaseAnalytics
 
 open class InformationMapModalViewModelDependencies {
     public let navigationModel: InformationMapModalNavigationModel
@@ -37,8 +38,6 @@ open class InformationMapModalViewModel: InformationMapModalHeaderSectionViewMod
         self.locationManager = locationManager
     }
 
-    //init() {}
-
     @Published public var loadingPublished: Bool = false
     @Published public var errorPublished: Bool = false
     @Published public var contentPublished: InformationMapModalPresentationModel?
@@ -63,6 +62,9 @@ open class InformationMapModalViewModel: InformationMapModalHeaderSectionViewMod
     private var cancellables = Set<AnyCancellable>()
 
     open func notifyAppearance() {
+        Analytics.logEvent(AnalyticsEventScreenView, parameters: [
+            AnalyticsParameterScreenName: "InformationMapModal"
+        ])
         contentPublished = InformationMapModalPresentationModel(title: navigationModel.title,
                                                                 description: navigationModel.description,
                                                                 location: navigationModel.location,
@@ -76,6 +78,9 @@ open class InformationMapModalViewModel: InformationMapModalHeaderSectionViewMod
     }
 
     open func howToGoTapped() {
+        Analytics.logEvent("howToGo_tapped_on_map_modal", parameters: [
+            "entry_title": navigationModel.title ?? ""
+        ])
         if let destination = navigationModel.location?.coordinate {
             let placemark = MKPlacemark(coordinate: destination)
             let mapItem = MKMapItem(placemark: placemark)

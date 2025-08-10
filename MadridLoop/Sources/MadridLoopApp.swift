@@ -5,6 +5,8 @@ import MapKit
 @main
 struct MadridLoopApp: App {
 
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+
     init() {
         NavigationModule.inject()
         LandingModule.inject()

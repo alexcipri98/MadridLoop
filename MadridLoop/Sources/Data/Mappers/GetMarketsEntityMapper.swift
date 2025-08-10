@@ -17,7 +17,8 @@ open class GetMarketsFontsEntityMapper: GetMarketsEntityMapperContract {
     public required init() {}
 
     open func map(_ input: Data) throws -> MarketsEntity {
-        return try input.map(MarketsEntity.self)
+        let cleanedData = input.cleanedInvalidEscapes() ?? input
+        return try cleanedData.map(MarketsEntity.self)
     }
 
     open func map(_ input: MarketsEntity) throws -> [MarketInformationModel] {
