@@ -8,6 +8,7 @@
 import DependencyInjector
 import PresentationLayer
 import Combine
+import FirebaseAnalytics
 
 open class LandingViewModelDependencies {
     public let identifier: String
@@ -48,8 +49,6 @@ open class LandingViewModel: LandingHeaderSectionViewModelContract,
         self.getMarketsUseCase = getMarketsUseCase
     }
 
-    //init() {}
-
     @Published public var loadingPublished: Bool = false
     @Published public var errorPublished: Bool = false
     @Published public var entriesPublished: [EventEntryModel] = []
@@ -78,12 +77,22 @@ open class LandingViewModel: LandingHeaderSectionViewModelContract,
     }
 
     open func notifyAppearance() {
+        Analytics.logEvent(AnalyticsEventScreenView, parameters: [
+            AnalyticsParameterScreenName: "Landing"
+        ])
         loadInitialData()
     }
 
     open func getEventForEntries() {}
 
-    open func entryTapped(at index: Int) {}
+    open func entryTapped(at index: Int) {
+        guard entriesPublished.indices.contains(index) else { return }
+        let event = entriesPublished[index]
+        Analytics.logEvent("event_entry_tapped", parameters: [
+            "event_id": event.id,
+            "event_title": event.title
+        ])
+    }
 
     open func lookInMapEventsTapped() {
         var places = [Location]()
@@ -92,6 +101,9 @@ open class LandingViewModel: LandingHeaderSectionViewModelContract,
                 places.append(location)
             }
         }
+        Analytics.logEvent("look_in_map_events_tapped", parameters: [
+            "places_count": places.count
+        ])
         let navigationModel = MapScreenNavigationModel(identifier: identifier,
                                                        places: places,
                                                        action: { [weak self] identifier in
@@ -119,6 +131,9 @@ open class LandingViewModel: LandingHeaderSectionViewModelContract,
                         places.append(location)
                     }
                 }
+                Analytics.logEvent("look_in_map_dogs_tapped", parameters: [
+                    "places_count": places.count
+                ])
                 let navigationModel = MapScreenNavigationModel(identifier: identifier,
                                                                places: places,
                                                                action: { [weak self] identifier in
@@ -133,6 +148,9 @@ open class LandingViewModel: LandingHeaderSectionViewModelContract,
     }
 
     open func lookInMapMarketsTapped() {
+        Analytics.logEvent("look_in_map_markets_tapped", parameters: [
+            "places_count": marketsPublished.count
+        ])
         var places = [Location]()
         for entry in marketsPublished {
             if let location = Location.fromMarketsToLocation(entry) {
@@ -153,14 +171,21 @@ open class LandingViewModel: LandingHeaderSectionViewModelContract,
     }
 
     open func lookInListEventsTapped() {
+        Analytics.logEvent("look_in_list_events_tapped", parameters: [
+            "identifier": identifier
+        ])
         navigationBuilder.navigateToListEvents()
     }
 
     open func lookInListMerchantsTapped() {
+        Analytics.logEvent("look_in_list_markets_tapped", parameters: [
+            "identifier": identifier
+        ])
         navigationBuilder.navigateToListMerchants()
     }
 
     open func tryAgain() {
+        Analytics.logEvent("initial_tryAgain_button_tapped", parameters: nil)
         notifyAppearance()
     }
 }
@@ -192,6 +217,10 @@ private extension LandingViewModel {
             errorPublished = true
             return
         }
+        Analytics.logEvent("event_tapped_on_map", parameters: [
+            "event_id": event.id,
+            "event_title": event.title
+        ])
         let informationMapModalNavigationModel = InformationMapModalNavigationModel(title: event.title,
                                                                                     description: event.description,
                                                                                     location: location,
@@ -202,6 +231,10 @@ private extension LandingViewModel {
     }
 
     func marketTappedOnMap(_ market: MarketInformationModel) {
+        Analytics.logEvent("market_tapped_on_map", parameters: [
+            "market_id": market.id ?? "",
+            "market_title": market.title ?? ""
+        ])
         var description = ""
         if let index = market.services?.firstIndex(of: ".") {
             description = String(market.services?[..<index] ?? "")
