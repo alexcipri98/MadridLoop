@@ -1,6 +1,7 @@
 import Navigation
 import SwiftUI
 import MapKit
+import FirebaseCore
 
 @main
 struct MadridLoopApp: App {
