@@ -10,19 +10,32 @@ import SwiftUI
 struct LoadingView: View {
 
     var body: some View {
-        VStack(spacing: 24) {
-            HStack(spacing: 8) {
-                ForEach(0..<3) { index in
-                    Circle()
-                        .frame(width: 10 + CGFloat(index) * 4, height: 10 + CGFloat(index) * 4)
-                        .foregroundColor(.red)
-                }
-            }
+        TimelineView(.animation) { timeline in
+            VStack(spacing: 8) {
+                RoundedRectangle(cornerRadius: 4)
+                    .fill(Color.accentColor)
+                    .frame(width: 60, height: 6)
 
-            Text("Cargando Madrid…")
-                .font(.headline)
-                .foregroundColor(.secondary)
+                RoundedRectangle(cornerRadius: 4)
+                    .fill(Color.accentColor)
+                    .frame(width: 40, height: 6)
+
+                RoundedRectangle(cornerRadius: 4)
+                    .fill(Color.accentColor)
+                    .frame(width: 80, height: 6)
+
+                Text("Cargando MadridLoop…")
+                    .font(.headline)
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
+                    .padding(.top)
+                Text("Si es la primera vez que accede esto puede tardar unos segundos.")
+                    .font(.headline)
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal)
+            }
+            .padding()
         }
-        .padding()
     }
 }

@@ -41,9 +41,6 @@ open class VersionUpdateViewModel: VersionUpdateContentSectionViewModelContract,
     }
     
     open func notifyAppearance() {
-        /*Analytics.logEvent(AnalyticsEventScreenView, parameters: [
-            AnalyticsParameterScreenName: "VersionUpdate"
-        ])*/
         versionModel = navigationModel
     }
 
