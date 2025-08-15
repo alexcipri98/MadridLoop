@@ -10,9 +10,9 @@ import Foundation
 public enum AvailableFilters {
     case isTrashFilterSelected
     case isNormalFontsFilterSelected
-    case isDogsFontsFilterSelected
+    case isDogsZonesFilterSelected
 
     static func getEmptyFilters() -> [AvailableFilters: Bool] {
-        return [.isTrashFilterSelected: true, .isNormalFontsFilterSelected: true, .isDogsFontsFilterSelected: true]
+        return [.isTrashFilterSelected: true, .isNormalFontsFilterSelected: true, .isDogsZonesFilterSelected: true]
     }
 }

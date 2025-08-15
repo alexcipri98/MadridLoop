@@ -36,8 +36,8 @@ final class DataModule: ModuleContract {
                                             LandingEntriesEntityMapper.self)
         DependencyContainer.shared.register(DogsTrashEntityMapperContract.self,
                                             DogsTrashEntityMapper.self)
-        DependencyContainer.shared.register(DogsFontsEntityMapperContract.self,
-                                            DogsFontsEntityMapper.self)
+        DependencyContainer.shared.register(DogsZonesEntityMapperContract.self,
+                                            DogsZonesEntityMapper.self)
         DependencyContainer.shared.register(NormalFontsEntityMapperContract.self,
                                             NormalFontsEntityMapper.self)
         DependencyContainer.shared.register(GetMarketsEntityMapperContract.self,

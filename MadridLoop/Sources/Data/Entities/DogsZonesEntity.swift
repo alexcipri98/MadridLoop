@@ -1,5 +1,5 @@
 //
-//  DogsFontsEntity.swift
+//  DogsZonesEntity.swift
 //  MadridLoop
 //
 //  Created by Alex Ciprian lopez on 17/7/25.
@@ -7,36 +7,14 @@
 
 import Foundation
 
-open class DogsFontsEntity: Decodable {
-    public let page: Int?
-    public let pageSize: Int?
-    public let totalRecords: Int?
-    public let pageRecords: Int?
-    public let status: Int?
-    public let responseDate: String?
-    public let first: String?
-    public let last: String?
-    public let `self`: String?
-    public let contentMD5: String?
-    public let sinEntrecomillar: Bool?
-    public let records: [FountainEntity]?
+open class DogsZonesEntity: Decodable {
+    public let zones: [String: ZoneEntity]?
 
-    public init(page: Int? = nil, pageSize: Int? = nil, totalRecords: Int? = nil, pageRecords: Int? = nil, status: Int? = nil, responseDate: String? = nil, first: String? = nil, last: String? = nil, contentMD5: String? = nil, sinEntrecomillar: Bool? = nil, records: [FountainEntity]? = nil) {
-        self.page = page
-        self.pageSize = pageSize
-        self.totalRecords = totalRecords
-        self.pageRecords = pageRecords
-        self.status = status
-        self.responseDate = responseDate
-        self.first = first
-        self.last = last
-        self.`self` = nil
-        self.contentMD5 = contentMD5
-        self.sinEntrecomillar = sinEntrecomillar
-        self.records = records
+    public init(zones: [String: ZoneEntity]? = nil) {
+        self.zones = zones
     }
 
-    open class FountainEntity: Decodable {
+    public struct ZoneEntity: Decodable {
         public let id: String?
         public let descClasificacion: String?
         public let codBarrio: String?
@@ -58,9 +36,8 @@ open class DogsFontsEntity: Decodable {
         public let fechaInstalacion: String?
         public let codigoInterno: String?
         public let contratoCod: String?
-        public let ubicacion: String?
-        public let uso: String?
-        public let modelo: String?
+        public let tipo: String?
+        public let totalElem: Int?
 
         private enum CodingKeys: String, CodingKey {
             case id = "ID"
@@ -84,35 +61,35 @@ open class DogsFontsEntity: Decodable {
             case fechaInstalacion = "FECHA_INSTALACION"
             case codigoInterno = "CODIGO_INTERNO"
             case contratoCod = "CONTRATO_COD"
-            case ubicacion = "UBICACION"
-            case uso = "USO"
-            case modelo = "MODELO"
+            case tipo = "TIPO"
+            case totalElem = "TOTAL_ELEM"
         }
 
-        public init(id: String? = nil,
-                    descClasificacion: String? = nil,
-                    codBarrio: String? = nil,
-                    barrio: String? = nil,
-                    codDistrito: String? = nil,
-                    distrito: String? = nil,
-                    estado: String? = nil,
-                    coordGisX: String? = nil,
-                    coordGisY: String? = nil,
-                    sistemaCoord: String? = nil,
-                    latitud: Double? = nil,
-                    longitud: Double? = nil,
-                    tipoVia: String? = nil,
-                    nomVia: String? = nil,
-                    numVia: String? = nil,
-                    codPostal: String? = nil,
-                    direccionAux: String? = nil,
-                    ndp: String? = nil,
-                    fechaInstalacion: String? = nil,
-                    codigoInterno: String? = nil,
-                    contratoCod: String? = nil,
-                    ubicacion: String? = nil,
-                    uso: String? = nil,
-                    modelo: String? = nil) {
+        public init(
+            id: String? = nil,
+            descClasificacion: String? = nil,
+            codBarrio: String? = nil,
+            barrio: String? = nil,
+            codDistrito: String? = nil,
+            distrito: String? = nil,
+            estado: String? = nil,
+            coordGisX: String? = nil,
+            coordGisY: String? = nil,
+            sistemaCoord: String? = nil,
+            latitud: Double? = nil,
+            longitud: Double? = nil,
+            tipoVia: String? = nil,
+            nomVia: String? = nil,
+            numVia: String? = nil,
+            codPostal: String? = nil,
+            direccionAux: String? = nil,
+            ndp: String? = nil,
+            fechaInstalacion: String? = nil,
+            codigoInterno: String? = nil,
+            contratoCod: String? = nil,
+            tipo: String? = nil,
+            totalElem: Int? = nil
+        ) {
             self.id = id
             self.descClasificacion = descClasificacion
             self.codBarrio = codBarrio
@@ -134,9 +111,8 @@ open class DogsFontsEntity: Decodable {
             self.fechaInstalacion = fechaInstalacion
             self.codigoInterno = codigoInterno
             self.contratoCod = contratoCod
-            self.ubicacion = ubicacion
-            self.uso = uso
-            self.modelo = modelo
+            self.tipo = tipo
+            self.totalElem = totalElem
         }
     }
 }

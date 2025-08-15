@@ -26,7 +26,7 @@ open class MadridRepository: GetEventsCalendarRepositoryContract,
     // Mappers
     public let landingEntriesEntityMapper: LandingEntriesEntityMapperContract
     public let dogsTrashEntityMapper: DogsTrashEntityMapperContract
-    public let dogsFontsEntityMapper: DogsFontsEntityMapperContract
+    public let dogsZonesEntityMapper: DogsZonesEntityMapperContract
     public let normalFontsEntityMapper: NormalFontsEntityMapperContract
     public let getMarketsEntityMapper: GetMarketsEntityMapperContract
     public let versionEntityMapper: VersionEntityMapperContract
@@ -48,7 +48,7 @@ open class MadridRepository: GetEventsCalendarRepositoryContract,
 
         // Mappers
         @Injected var dogsTrashEntityMapper: DogsTrashEntityMapperContract
-        @Injected var dogsFontsEntityMapper: DogsFontsEntityMapperContract
+        @Injected var dogsZonesEntityMapper: DogsZonesEntityMapperContract
         @Injected var normalFontsEntityMapper: NormalFontsEntityMapperContract
         @Injected var getMarketsEntityMapper: GetMarketsEntityMapperContract
         @Injected var versionEntityMapper: VersionEntityMapperContract
@@ -66,7 +66,7 @@ open class MadridRepository: GetEventsCalendarRepositoryContract,
 
         // Mappers
         self.dogsTrashEntityMapper = dogsTrashEntityMapper
-        self.dogsFontsEntityMapper = dogsFontsEntityMapper
+        self.dogsZonesEntityMapper = dogsZonesEntityMapper
         self.normalFontsEntityMapper = normalFontsEntityMapper
         self.getMarketsInformationRemoteDataSource = getMarketsInformationRemoteDataSource
         self.getMarketsEntityMapper = getMarketsEntityMapper
@@ -108,16 +108,16 @@ open class MadridRepository: GetEventsCalendarRepositoryContract,
         }
 
         async let trashEntity = getDogsInformationRemoteDataSource.getDogsTrashInformation(distrit: distrit)
-        async let dogsFontsEntity = getDogsInformationRemoteDataSource.getDogsFonts(district: distrit)
+        async let dogsZonesEntity = getDogsInformationRemoteDataSource.getDogsZones(district: distrit)
         async let normalFontsEntity = getDogsInformationRemoteDataSource.getNormalFonts(district: distrit)
 
-        let (trash, fonts, normalFonts) = try await (trashEntity, dogsFontsEntity, normalFontsEntity)
+        let (trash, zones, normalFonts) = try await (trashEntity, dogsZonesEntity, normalFontsEntity)
 
         let trashModel = try dogsTrashEntityMapper.map(trash)
-        let fontsModel = try dogsFontsEntityMapper.map(fonts)
+        let zonesModel = try dogsZonesEntityMapper.map(zones)
         let normalFontsModel = try normalFontsEntityMapper.map(normalFonts)
 
-        let result = trashModel + fontsModel + normalFontsModel
+        let result = trashModel + zonesModel + normalFontsModel
         dogsInformationLocalDataSource.addDogsInformation(result)
         return result
     }
