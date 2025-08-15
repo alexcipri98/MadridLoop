@@ -167,6 +167,8 @@ open class LandingViewModel: LandingHeaderSectionViewModelContract,
     }
 
     open func tryAgain() {
+        self.errorPublished = false
+        self.loadingPublished = true
         notifyAppearance()
     }
 }
