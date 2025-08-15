@@ -32,6 +32,8 @@ struct MadridLoopApp: App {
         ListMerchantsHeaderSectionModule.inject()
         ListMerchantsContentSectionModule.inject()
         GenericErrorSectionModule.inject()
+        VersionUpdateModule.inject()
+        VersionUpdateContentSectionModule.inject()
         Router.shared.setRoot(IncomingNavigation.entryPoint(identifier: ""))
     }
 

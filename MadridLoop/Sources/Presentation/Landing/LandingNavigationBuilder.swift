@@ -15,6 +15,7 @@ public protocol LandingNavigationBuilderContract: NavigationBuilder {
     func goBack()
     func navigateToListEvents()
     func navigateToListMerchants()
+    func navigateToVersionUpdate(_ navigationModel: VersionModel)
 }
 
 open class LandingNavigationBuilder: LandingNavigationBuilderContract {
@@ -47,6 +48,11 @@ open class LandingNavigationBuilder: LandingNavigationBuilderContract {
 
     open func navigateToListMerchants() {
         let navigationInfo = IncomingNavigation.listMerchants
+        Router.shared.navigateTo(navigationInfo)
+    }
+
+    open func navigateToVersionUpdate(_ navigationModel: VersionModel) {
+        let navigationInfo = IncomingNavigation.versionUpdate(navigationModel: navigationModel)
         Router.shared.navigateTo(navigationInfo)
     }
 }

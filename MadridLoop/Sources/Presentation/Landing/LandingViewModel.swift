@@ -34,18 +34,20 @@ open class LandingViewModel: LandingHeaderSectionViewModelContract,
     public let navigationBuilder: LandingNavigationBuilderContract
     public let getUserDistritCodeUseCase: GetUserDistritUseCaseContract
     public let getMarketsUseCase: GetMarketsUseCaseContract
-
+    public let getVersionUseCase: GetVersionUseCaseContract
     public required init(){
         @Injected var getEventsCalendarUseCase: GetEventsCalendarUseCaseContract
         @Injected var getDogsInformationUseCase: GetDogsInformationUseCaseContract
         @Injected var navigationBuilder: LandingNavigationBuilderContract
         @Injected var getUserDistritUseCase: GetUserDistritUseCaseContract
         @Injected var getMarketsUseCase: GetMarketsUseCaseContract
+        @Injected var getVersionUseCase: GetVersionUseCaseContract
         self.getUserDistritCodeUseCase = getUserDistritUseCase
         self.navigationBuilder = navigationBuilder
         self.getEventsCalendarUseCase = getEventsCalendarUseCase
         self.getDogsInformationUseCase = getDogsInformationUseCase
         self.getMarketsUseCase = getMarketsUseCase
+        self.getVersionUseCase = getVersionUseCase
     }
 
     @Published public var loadingPublished: Bool = false
@@ -76,15 +78,13 @@ open class LandingViewModel: LandingHeaderSectionViewModelContract,
     }
 
     open func notifyAppearance() {
+        checkVersion()
         loadInitialData()
     }
 
     open func getEventForEntries() {}
 
-    open func entryTapped(at index: Int) {
-        guard entriesPublished.indices.contains(index) else { return }
-        let event = entriesPublished[index]
-    }
+    open func entryTapped(at index: Int) {}
 
     open func lookInMapEventsTapped() {
         var places = [Location]()
@@ -214,5 +214,23 @@ private extension LandingViewModel {
                                                                                     link: market.relation,
                                                                                     schedule: market.schedule)
         navigationBuilder.navigateToModal(informationMapModalNavigationModel)
+    }
+
+    func checkVersion() {
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            defer {
+                self.loadingPublished = false
+            }
+            do {
+                let params = GetVersionUseCaseParameters()
+                let result = try await getVersionUseCase.run(params)
+                if result.updateRequired {
+                    navigationBuilder.navigateToVersionUpdate(result)
+                }
+            } catch {
+                // do nothing
+            }
+        }
     }
 }

@@ -9,7 +9,8 @@ import DependencyInjector
 
 open class MadridRemoteDataSource: GetEventsCalendarRemoteDataSourceContract,
                                    GetDogsInformationRemoteDataSourceContract,
-                                   GetMarketsRemoteDataSourceContract {
+                                   GetMarketsRemoteDataSourceContract,
+                                   GetVersionRemoteDataSourceContract {
 
     public let madridAPI: MadridAPIContract
     public let landingEntriesMapper: LandingEntriesEntityMapperContract
@@ -17,6 +18,7 @@ open class MadridRemoteDataSource: GetEventsCalendarRemoteDataSourceContract,
     public let dogsFontsMapper: DogsFontsEntityMapperContract
     public let normalFontsMapper: NormalFontsEntityMapperContract
     public let getMarketsMapper: GetMarketsEntityMapperContract
+    public let versionMapper: VersionEntityMapperContract
 
     public required init() {
         @Injected var madridAPI: MadridAPIContract
@@ -25,12 +27,14 @@ open class MadridRemoteDataSource: GetEventsCalendarRemoteDataSourceContract,
         @Injected var dogsFontsMapper: DogsFontsEntityMapperContract
         @Injected var normalFontsMapper: NormalFontsEntityMapperContract
         @Injected var getMarketsMapper: GetMarketsEntityMapperContract
+        @Injected var versionMapper: VersionEntityMapperContract
         self.madridAPI = madridAPI
         self.landingEntriesMapper = landingEntriesMapper
         self.dogsTrashMapper = dogsTrashMapper
         self.dogsFontsMapper = dogsFontsMapper
         self.normalFontsMapper = normalFontsMapper
         self.getMarketsMapper = getMarketsMapper
+        self.versionMapper = versionMapper
     }
 
     open func getEventsCalendar() async throws -> LandingEntriesEntity {
@@ -56,5 +60,10 @@ open class MadridRemoteDataSource: GetEventsCalendarRemoteDataSourceContract,
     open func getMarkets() async throws -> MarketsEntity {
         let data = try await madridAPI.getMarkets().execute()
         return try getMarketsMapper.map(data)
+    }
+
+    open func getVersion(version: String) async throws -> VersionEntity {
+        let data = try await madridAPI.getVersion(version: version).execute()
+        return try versionMapper.map(data)
     }
 }

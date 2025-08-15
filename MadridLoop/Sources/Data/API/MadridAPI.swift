@@ -14,6 +14,7 @@ public protocol MadridAPIContract: Instanciable {
     func getNormalFonts(distrit: String) -> HTTPAPIContract
     func getDogsFonts(distrit: String) -> HTTPAPIContract
     func getMarkets() -> HTTPAPIContract
+    func getVersion(version: String) -> HTTPAPIContract
 }
 
 open class MadridAPI: MadridAPIContract {
@@ -37,6 +38,10 @@ open class MadridAPI: MadridAPIContract {
 
     open func getMarkets() -> any HTTPAPIContract {
         GetMarkets()
+    }
+
+    open func getVersion(version: String) -> any HTTPAPIContract {
+        GetVersion(version: version)
     }
 }
 
@@ -97,6 +102,20 @@ private extension MadridAPI {
         
         public var path: String {
             "https://datos.madrid.es/egob/catalogo/202105-0-mercadillos.json"
+        }
+    }
+
+    struct GetVersion: HTTPAPIContract {
+        private let version: String
+
+        public init(version: String) {
+            self.version = version
+        }
+
+        public var method = "GET"
+
+        public var path: String {
+            "https://checkappversion-3o573a5zhq-uc.a.run.app?version=\(version)"
         }
     }
 }

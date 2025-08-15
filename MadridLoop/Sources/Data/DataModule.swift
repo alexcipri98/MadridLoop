@@ -21,6 +21,8 @@ final class DataModule: ModuleContract {
                                             MadridRemoteDataSource.self)
         DependencyContainer.shared.register(GetMarketsRemoteDataSourceContract.self,
                                             MadridRemoteDataSource.self)
+        DependencyContainer.shared.register(GetVersionRemoteDataSourceContract.self,
+                                            MadridRemoteDataSource.self)
         // Locals
         DependencyContainer.shared.register(EventsCalendarLocalDataSourceContract.self,
                                             MadridLocalDataSource.self)
@@ -40,6 +42,8 @@ final class DataModule: ModuleContract {
                                             NormalFontsEntityMapper.self)
         DependencyContainer.shared.register(GetMarketsEntityMapperContract.self,
                                             GetMarketsFontsEntityMapper.self)
+        DependencyContainer.shared.register(VersionEntityMapperContract.self,
+                                            VersionEntityMapper.self)
 
         // Repositories
         DependencyContainer.shared.register(GetEventsCalendarRepositoryContract.self,
@@ -47,6 +51,8 @@ final class DataModule: ModuleContract {
         DependencyContainer.shared.register(GetDogsInformationRepositoryContract.self,
                                             MadridRepository.self)
         DependencyContainer.shared.register(GetMarketsInformationRepositoryContract.self,
+                                            MadridRepository.self)
+        DependencyContainer.shared.register(GetVersionRepositoryContract.self,
                                             MadridRepository.self)
     }
 }
