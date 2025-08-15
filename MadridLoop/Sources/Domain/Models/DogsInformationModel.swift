@@ -44,7 +44,6 @@ open class DogsInformationModel: Codable {
         case trash
         case font
         case dogFont
-        case park
     }
 }
 

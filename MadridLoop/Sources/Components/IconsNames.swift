@@ -8,6 +8,5 @@
 public enum IconsNames: String {
     case trash = "trash.fill"
     case normalFont = "drop.fill"
-    case dogFont = "pawprint.fill"
-    case park = "leaf.fill"
+    case dogPark = "pawprint.fill"
 }

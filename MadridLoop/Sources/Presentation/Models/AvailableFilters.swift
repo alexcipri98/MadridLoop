@@ -13,6 +13,8 @@ public enum AvailableFilters {
     case isDogsZonesFilterSelected
 
     static func getEmptyFilters() -> [AvailableFilters: Bool] {
-        return [.isTrashFilterSelected: true, .isNormalFontsFilterSelected: true, .isDogsZonesFilterSelected: true]
+        return [.isTrashFilterSelected: true,
+                .isNormalFontsFilterSelected: false,
+                .isDogsZonesFilterSelected: false]
     }
 }

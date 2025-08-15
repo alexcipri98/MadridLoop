@@ -58,14 +58,10 @@ struct MapFiltersSectionView: ModularSection {
                                     if let value = data.isFilterSelected[.isNormalFontsFilterSelected] {
                                         normalFontsFilterButton(isNormalFontFilterSelected: value)
                                     }
-                                case .dogFont:
+                                case .dogPark:
                                     if let value = data.isFilterSelected[.isDogsZonesFilterSelected] {
-                                        dogsZonesFilterButton(isDogFontFilterSelected: value)
+                                        dogsZonesFilterButton(isdogParkFilterSelected: value)
                                     }
-                                case .park:
-                                    EmptyView()
-                                default:
-                                    EmptyView()
                                 }
                             }
                         }
@@ -82,37 +78,52 @@ struct MapFiltersSectionView: ModularSection {
     
     @ViewBuilder
     func trashFilterButton(isTrashFilterSelected: Bool) -> some View {
-        Button(action: {
-            viewModel.didToggleFilter(filter: .isTrashFilterSelected)
-        }) {
-            Image(systemName: IconsNames.trash.rawValue)
-                .foregroundColor(isTrashFilterSelected ? .white : .orange)
-                .padding()
-                .background(RoundedRectangle(cornerRadius: 12).fill(isTrashFilterSelected ? Color.orange : Color.gray.opacity(0.2)))
+        VStack {
+            Button(action: {
+                viewModel.didToggleFilter(filter: .isTrashFilterSelected)
+            }) {
+                Image(systemName: IconsNames.trash.rawValue)
+                    .foregroundColor(isTrashFilterSelected ? .white : .orange)
+                    .padding()
+                    .background(RoundedRectangle(cornerRadius: 12).fill(isTrashFilterSelected ? Color.orange : Color.gray.opacity(0.2)))
+            }
+            Text("Bolsas")
+                .font(.caption)
+                .foregroundColor(.black)
         }
     }
 
     @ViewBuilder
     func normalFontsFilterButton(isNormalFontFilterSelected: Bool) -> some View {
-        Button(action: {
-            viewModel.didToggleFilter(filter: .isNormalFontsFilterSelected)
-        }) {
-            Image(systemName: IconsNames.normalFont.rawValue)
-                .foregroundColor(isNormalFontFilterSelected ? .white : .orange)
-                .padding()
-                .background(RoundedRectangle(cornerRadius: 12).fill(isNormalFontFilterSelected ? Color.orange : Color.gray.opacity(0.2)))
+        VStack {
+            Button(action: {
+                viewModel.didToggleFilter(filter: .isNormalFontsFilterSelected)
+            }) {
+                Image(systemName: IconsNames.normalFont.rawValue)
+                    .foregroundColor(isNormalFontFilterSelected ? .white : .orange)
+                    .padding()
+                    .background(RoundedRectangle(cornerRadius: 12).fill(isNormalFontFilterSelected ? Color.orange : Color.gray.opacity(0.2)))
+            }
+            Text("Fuentes")
+                .font(.caption)
+                .foregroundColor(.black)
         }
     }
 
     @ViewBuilder
-    func dogsZonesFilterButton(isDogFontFilterSelected: Bool) -> some View {
-        Button(action: {
-            viewModel.didToggleFilter(filter: .isDogsZonesFilterSelected)
-        }) {
-            Image(systemName: IconsNames.dogFont.rawValue)
-                .foregroundColor(isDogFontFilterSelected ? .white : .orange)
-                .padding()
-                .background(RoundedRectangle(cornerRadius: 12).fill(isDogFontFilterSelected ? Color.orange : Color.gray.opacity(0.2)))
+    func dogsZonesFilterButton(isdogParkFilterSelected: Bool) -> some View {
+        VStack {
+            Button(action: {
+                viewModel.didToggleFilter(filter: .isDogsZonesFilterSelected)
+            }) {
+                Image(systemName: IconsNames.dogPark.rawValue)
+                    .foregroundColor(isdogParkFilterSelected ? .white : .orange)
+                    .padding()
+                    .background(RoundedRectangle(cornerRadius: 12).fill(isdogParkFilterSelected ? Color.orange : Color.gray.opacity(0.2)))
+            }
+            Text("Pipicanes")
+                .font(.caption)
+                .foregroundColor(.black)
         }
     }
 }

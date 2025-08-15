@@ -32,7 +32,6 @@ public enum MapFiltersSectionRenderModel {
         case date
         case trash
         case font
-        case dogFont
-        case park
+        case dogPark
     }
 }

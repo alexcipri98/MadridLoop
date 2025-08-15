@@ -6,21 +6,25 @@
 //
 
 import MapKit
+import SwiftUI
 
 open class Location: Identifiable {
     public let id: String
     public let iconName: String?
+    public let iconColor: Color?
     public let startTime: Date?
     public let endTime: Date?
     let coordinate: CLLocationCoordinate2D
     
     public init(id: String,
                 iconName: String? = nil,
+                iconColor: Color? = nil,
                 startTime: Date? = nil,
                 endTime: Date? = nil,
                 coordinate: CLLocationCoordinate2D) {
         self.id = id
         self.iconName = iconName
+        self.iconColor = iconColor
         self.startTime = startTime
         self.endTime = endTime
         self.coordinate = coordinate
@@ -52,19 +56,17 @@ open class Location: Identifiable {
         switch dog.typeOfElement {
         case .dogFont:
             return Location(id: dog.id,
-                            iconName: IconsNames.dogFont.rawValue,
+                            iconName: IconsNames.dogPark.rawValue,
                             coordinate: coordinate)
         case .font:
             return Location(id: dog.id,
                             iconName: IconsNames.normalFont.rawValue,
-                            coordinate: coordinate)
-        case .park:
-            return Location(id: dog.id,
-                            iconName: IconsNames.park.rawValue,
+                            iconColor: .blue,
                             coordinate: coordinate)
         case .trash:
             return Location(id: dog.id,
                             iconName: IconsNames.trash.rawValue,
+                            iconColor: .brown,
                             coordinate: coordinate)
         }
     }

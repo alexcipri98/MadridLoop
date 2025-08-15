@@ -39,12 +39,11 @@ public struct MapView: View {
         let groupedPlaces = Dictionary(grouping: places) { location in
             "\(round(location.coordinate.latitude * 1e5)/1e5),\(round(location.coordinate.longitude * 1e5)/1e5)"
         }
-
         Map(position: $position) {
             UserAnnotation()
             ForEach(Array(groupedPlaces.values), id: \.first!.id) { group in
-                if let coordinate = group.first?.coordinate {
-                    Annotation("Evento", coordinate: coordinate) {
+                if let firstLocation = group.first {
+                    Annotation("", coordinate: firstLocation.coordinate) {
                         Button(action: {
                             if group.count == 1 {
                                 action?(group[0].id)
@@ -53,9 +52,10 @@ public struct MapView: View {
                             }
                         }) {
                             VStack {
-                                if let iconName = group.first?.iconName, !iconName.isEmpty {
+                                if let iconName = firstLocation.iconName,
+                                   !iconName.isEmpty {
                                     Image(systemName: iconName)
-                                        .foregroundColor(.red)
+                                        .foregroundColor(firstLocation.iconColor ?? .red)
                                         .imageScale(.large)
                                 } else {
                                     Image(systemName: "mappin.circle.fill")

@@ -57,8 +57,7 @@ open class MapFiltersSectionMapper: MapFiltersSectionMapperContract {
             let iconToFilterMap: [(String, RenderModel.Filters)] = [
                 (IconsNames.trash.rawValue, .trash),
                 (IconsNames.normalFont.rawValue, .font),
-                (IconsNames.dogFont.rawValue, .dogFont),
-                (IconsNames.park.rawValue, .park)
+                (IconsNames.dogPark.rawValue, .dogPark)
             ]
 
             var filters: [RenderModel.Filters] = iconToFilterMap.compactMap { icon, filter in
