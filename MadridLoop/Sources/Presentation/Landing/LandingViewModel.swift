@@ -35,6 +35,8 @@ open class LandingViewModel: LandingHeaderSectionViewModelContract,
     public let getUserDistritCodeUseCase: GetUserDistritUseCaseContract
     public let getMarketsUseCase: GetMarketsUseCaseContract
     public let getVersionUseCase: GetVersionUseCaseContract
+    public let checkLocationPermissionUseCase: CheckLocationPermissionUseCaseContract
+
     public required init(){
         @Injected var getEventsCalendarUseCase: GetEventsCalendarUseCaseContract
         @Injected var getDogsInformationUseCase: GetDogsInformationUseCaseContract
@@ -42,12 +44,14 @@ open class LandingViewModel: LandingHeaderSectionViewModelContract,
         @Injected var getUserDistritUseCase: GetUserDistritUseCaseContract
         @Injected var getMarketsUseCase: GetMarketsUseCaseContract
         @Injected var getVersionUseCase: GetVersionUseCaseContract
+        @Injected var checkLocationPermissionUseCase: CheckLocationPermissionUseCaseContract
         self.getUserDistritCodeUseCase = getUserDistritUseCase
         self.navigationBuilder = navigationBuilder
         self.getEventsCalendarUseCase = getEventsCalendarUseCase
         self.getDogsInformationUseCase = getDogsInformationUseCase
         self.getMarketsUseCase = getMarketsUseCase
         self.getVersionUseCase = getVersionUseCase
+        self.checkLocationPermissionUseCase = checkLocationPermissionUseCase
     }
 
     @Published public var loadingPublished: Bool = false
@@ -79,6 +83,7 @@ open class LandingViewModel: LandingHeaderSectionViewModelContract,
 
     open func notifyAppearance() {
         checkVersion()
+        checkLocationPermission()
         loadInitialData()
     }
 
@@ -230,6 +235,17 @@ private extension LandingViewModel {
                 }
             } catch {
                 // do nothing
+            }
+        }
+    }
+
+    func checkLocationPermission() {
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            let params = CheckLocationPermissionUseCaseParameters()
+            let result = await checkLocationPermissionUseCase.run(params)
+            if result == false {
+                navigationBuilder.navigateToLocationPermission()
             }
         }
     }

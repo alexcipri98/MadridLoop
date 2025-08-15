@@ -14,12 +14,13 @@ public enum IncomingNavigation: NavigationInfo {
     case listEvents
     case listMerchants
     case versionUpdate(navigationModel: VersionModel)
+    case locationPermission
 
     public var presentationType: PresentationType {
         switch self {
         case .entryPoint:
             return .goToRoot
-        case .mapScreen, .listEvents, .listMerchants, .versionUpdate:
+        case .mapScreen, .listEvents, .listMerchants, .versionUpdate, .locationPermission:
             return .push
         case .informationMapModal:
             return .modal

@@ -33,6 +33,8 @@ public class Navigator: ScreenNavigator {
             return ListMerchantsBuilder().build()
         case .versionUpdate(let navigationModel):
             return VersionUpdateBuilder().setNavigationModel(navigationModel).build()
+        case .locationPermission:
+            return LocationPermissionBuilder().build()
         }
     }
 }

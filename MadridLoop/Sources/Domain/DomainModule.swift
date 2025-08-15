@@ -21,5 +21,7 @@ final class DomainModule: ModuleContract {
                                             GetMarketsUseCase.self)
         DependencyContainer.shared.register(GetVersionUseCaseContract.self,
                                             GetVersionUseCase.self)
+        DependencyContainer.shared.register(CheckLocationPermissionUseCaseContract.self,
+                                            CheckLocationPermissionUseCase.self)
     }
 }

@@ -34,6 +34,8 @@ struct MadridLoopApp: App {
         GenericErrorSectionModule.inject()
         VersionUpdateModule.inject()
         VersionUpdateContentSectionModule.inject()
+        LocationPermissionModule.inject()
+        LocationPermissionContentSectionModule.inject()
         Router.shared.setRoot(IncomingNavigation.entryPoint(identifier: ""))
     }
 

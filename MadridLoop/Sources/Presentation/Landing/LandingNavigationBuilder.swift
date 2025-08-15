@@ -16,6 +16,7 @@ public protocol LandingNavigationBuilderContract: NavigationBuilder {
     func navigateToListEvents()
     func navigateToListMerchants()
     func navigateToVersionUpdate(_ navigationModel: VersionModel)
+    func navigateToLocationPermission()
 }
 
 open class LandingNavigationBuilder: LandingNavigationBuilderContract {
@@ -53,6 +54,11 @@ open class LandingNavigationBuilder: LandingNavigationBuilderContract {
 
     open func navigateToVersionUpdate(_ navigationModel: VersionModel) {
         let navigationInfo = IncomingNavigation.versionUpdate(navigationModel: navigationModel)
+        Router.shared.navigateTo(navigationInfo)
+    }
+
+    open func navigateToLocationPermission() {
+        let navigationInfo = IncomingNavigation.locationPermission
         Router.shared.navigateTo(navigationInfo)
     }
 }
