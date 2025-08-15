@@ -12,8 +12,9 @@ public protocol MadridAPIContract: Instanciable {
     func getEventsCalendar() -> HTTPAPIContract
     func getDogsInformation(distrit: String) -> HTTPAPIContract
     func getNormalFonts(distrit: String) -> HTTPAPIContract
-    func getDogsFonts(distrit: String) -> HTTPAPIContract
+    func getDogsZones(distrit: String) -> HTTPAPIContract
     func getMarkets() -> HTTPAPIContract
+    func getVersion(version: String) -> HTTPAPIContract
 }
 
 open class MadridAPI: MadridAPIContract {
@@ -31,12 +32,16 @@ open class MadridAPI: MadridAPIContract {
         GetNormalFonts(distrit: distrit)
     }
 
-    open func getDogsFonts(distrit: String) -> any HTTPAPIContract {
-        GetDogsFonts(distrit: distrit)
+    open func getDogsZones(distrit: String) -> any HTTPAPIContract {
+        GetDogsZones(distrit: distrit)
     }
 
     open func getMarkets() -> any HTTPAPIContract {
         GetMarkets()
+    }
+
+    open func getVersion(version: String) -> any HTTPAPIContract {
+        GetVersion(version: version)
     }
 }
 
@@ -76,20 +81,6 @@ private extension MadridAPI {
         }
     }
 
-    struct GetDogsFonts: HTTPAPIContract {
-        private let distrit: String
-        
-        public init(distrit: String) {
-            self.distrit = distrit
-        }
-        
-        public var method = "GET"
-        
-        public var path: String {
-            "https://datos.madrid.es/egob/catalogo/50055-12105277-fuentes-mascotas.{responseContentType}?DISTRITO=\(distrit)"
-        }
-    }
-
     struct GetMarkets: HTTPAPIContract {
         public init() {}
         
@@ -97,6 +88,37 @@ private extension MadridAPI {
         
         public var path: String {
             "https://datos.madrid.es/egob/catalogo/202105-0-mercadillos.json"
+        }
+    }
+
+    struct GetVersion: HTTPAPIContract {
+        private let version: String
+
+        public init(version: String) {
+            self.version = version
+        }
+
+        public var method = "GET"
+
+        public var path: String {
+            "https://checkappversion-3o573a5zhq-uc.a.run.app?version=\(version)"
+        }
+    }
+
+    struct GetDogsZones: HTTPAPIContract {
+        private let distrit: String
+
+        public init(distrit: String) {
+            self.distrit = distrit
+        }
+
+        public var method = "GET"
+
+        public var path: String {
+            let queryDistrit = """
+            ?orderBy="DISTRITO"&equalTo="\(distrit)"
+            """
+            return "https://madridloop-default-rtdb.firebaseio.com/zonas_caninas.json\(queryDistrit)"
         }
     }
 }

@@ -8,7 +8,6 @@
 import DependencyInjector
 import PresentationLayer
 import Combine
-import FirebaseAnalytics
 
 open class LandingViewModelDependencies {
     public let identifier: String
@@ -35,18 +34,20 @@ open class LandingViewModel: LandingHeaderSectionViewModelContract,
     public let navigationBuilder: LandingNavigationBuilderContract
     public let getUserDistritCodeUseCase: GetUserDistritUseCaseContract
     public let getMarketsUseCase: GetMarketsUseCaseContract
-
+    public let getVersionUseCase: GetVersionUseCaseContract
     public required init(){
         @Injected var getEventsCalendarUseCase: GetEventsCalendarUseCaseContract
         @Injected var getDogsInformationUseCase: GetDogsInformationUseCaseContract
         @Injected var navigationBuilder: LandingNavigationBuilderContract
         @Injected var getUserDistritUseCase: GetUserDistritUseCaseContract
         @Injected var getMarketsUseCase: GetMarketsUseCaseContract
+        @Injected var getVersionUseCase: GetVersionUseCaseContract
         self.getUserDistritCodeUseCase = getUserDistritUseCase
         self.navigationBuilder = navigationBuilder
         self.getEventsCalendarUseCase = getEventsCalendarUseCase
         self.getDogsInformationUseCase = getDogsInformationUseCase
         self.getMarketsUseCase = getMarketsUseCase
+        self.getVersionUseCase = getVersionUseCase
     }
 
     @Published public var loadingPublished: Bool = false
@@ -77,22 +78,13 @@ open class LandingViewModel: LandingHeaderSectionViewModelContract,
     }
 
     open func notifyAppearance() {
-        Analytics.logEvent(AnalyticsEventScreenView, parameters: [
-            AnalyticsParameterScreenName: "Landing"
-        ])
+        checkVersion()
         loadInitialData()
     }
 
     open func getEventForEntries() {}
 
-    open func entryTapped(at index: Int) {
-        guard entriesPublished.indices.contains(index) else { return }
-        let event = entriesPublished[index]
-        Analytics.logEvent("event_entry_tapped", parameters: [
-            "event_id": event.id,
-            "event_title": event.title
-        ])
-    }
+    open func entryTapped(at index: Int) {}
 
     open func lookInMapEventsTapped() {
         var places = [Location]()
@@ -101,9 +93,6 @@ open class LandingViewModel: LandingHeaderSectionViewModelContract,
                 places.append(location)
             }
         }
-        Analytics.logEvent("look_in_map_events_tapped", parameters: [
-            "places_count": places.count
-        ])
         let navigationModel = MapScreenNavigationModel(identifier: identifier,
                                                        places: places,
                                                        action: { [weak self] identifier in
@@ -131,9 +120,6 @@ open class LandingViewModel: LandingHeaderSectionViewModelContract,
                         places.append(location)
                     }
                 }
-                Analytics.logEvent("look_in_map_dogs_tapped", parameters: [
-                    "places_count": places.count
-                ])
                 let navigationModel = MapScreenNavigationModel(identifier: identifier,
                                                                places: places,
                                                                action: { [weak self] identifier in
@@ -148,9 +134,6 @@ open class LandingViewModel: LandingHeaderSectionViewModelContract,
     }
 
     open func lookInMapMarketsTapped() {
-        Analytics.logEvent("look_in_map_markets_tapped", parameters: [
-            "places_count": marketsPublished.count
-        ])
         var places = [Location]()
         for entry in marketsPublished {
             if let location = Location.fromMarketsToLocation(entry) {
@@ -171,21 +154,14 @@ open class LandingViewModel: LandingHeaderSectionViewModelContract,
     }
 
     open func lookInListEventsTapped() {
-        Analytics.logEvent("look_in_list_events_tapped", parameters: [
-            "identifier": identifier
-        ])
         navigationBuilder.navigateToListEvents()
     }
 
     open func lookInListMerchantsTapped() {
-        Analytics.logEvent("look_in_list_markets_tapped", parameters: [
-            "identifier": identifier
-        ])
         navigationBuilder.navigateToListMerchants()
     }
 
     open func tryAgain() {
-        Analytics.logEvent("initial_tryAgain_button_tapped", parameters: nil)
         notifyAppearance()
     }
 }
@@ -217,10 +193,6 @@ private extension LandingViewModel {
             errorPublished = true
             return
         }
-        Analytics.logEvent("event_tapped_on_map", parameters: [
-            "event_id": event.id,
-            "event_title": event.title
-        ])
         let informationMapModalNavigationModel = InformationMapModalNavigationModel(title: event.title,
                                                                                     description: event.description,
                                                                                     location: location,
@@ -231,10 +203,6 @@ private extension LandingViewModel {
     }
 
     func marketTappedOnMap(_ market: MarketInformationModel) {
-        Analytics.logEvent("market_tapped_on_map", parameters: [
-            "market_id": market.id ?? "",
-            "market_title": market.title ?? ""
-        ])
         var description = ""
         if let index = market.services?.firstIndex(of: ".") {
             description = String(market.services?[..<index] ?? "")
@@ -246,5 +214,23 @@ private extension LandingViewModel {
                                                                                     link: market.relation,
                                                                                     schedule: market.schedule)
         navigationBuilder.navigateToModal(informationMapModalNavigationModel)
+    }
+
+    func checkVersion() {
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            defer {
+                self.loadingPublished = false
+            }
+            do {
+                let params = GetVersionUseCaseParameters()
+                let result = try await getVersionUseCase.run(params)
+                if result.updateRequired {
+                    navigationBuilder.navigateToVersionUpdate(result)
+                }
+            } catch {
+                // do nothing
+            }
+        }
     }
 }

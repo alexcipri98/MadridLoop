@@ -59,8 +59,8 @@ struct MapFiltersSectionView: ModularSection {
                                         normalFontsFilterButton(isNormalFontFilterSelected: value)
                                     }
                                 case .dogFont:
-                                    if let value = data.isFilterSelected[.isDogsFontsFilterSelected] {
-                                        dogsFontsFilterButton(isDogFontFilterSelected: value)
+                                    if let value = data.isFilterSelected[.isDogsZonesFilterSelected] {
+                                        dogsZonesFilterButton(isDogFontFilterSelected: value)
                                     }
                                 case .park:
                                     EmptyView()
@@ -105,9 +105,9 @@ struct MapFiltersSectionView: ModularSection {
     }
 
     @ViewBuilder
-    func dogsFontsFilterButton(isDogFontFilterSelected: Bool) -> some View {
+    func dogsZonesFilterButton(isDogFontFilterSelected: Bool) -> some View {
         Button(action: {
-            viewModel.didToggleFilter(filter: .isDogsFontsFilterSelected)
+            viewModel.didToggleFilter(filter: .isDogsZonesFilterSelected)
         }) {
             Image(systemName: IconsNames.dogFont.rawValue)
                 .foregroundColor(isDogFontFilterSelected ? .white : .orange)

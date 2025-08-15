@@ -19,11 +19,14 @@ exports.checkAppVersion = functions.https.onRequest(async (req, res) => {
 
     const minimumVersion = doc.data().minimumVersion;
 
+    const url = doc.data().url;
+
     const updateRequired =
       clientVersion && compareVersions(clientVersion, minimumVersion) < 0;
 
     res.json({
       minimumVersion: minimumVersion,
+      url: url,
       updateRequired: updateRequired ?? true,
     });
   } catch (error) {

@@ -8,7 +8,6 @@
 import DependencyInjector
 import PresentationLayer
 import Combine
-import FirebaseAnalytics
 
 open class MapViewModelDependencies {
     public let navigationModel: MapScreenNavigationModel
@@ -73,9 +72,6 @@ open class MapViewModel: MapHeaderSectionViewModelContract,
     private var cancellables = Set<AnyCancellable>()
     
     open func notifyAppearance() {
-        Analytics.logEvent(AnalyticsEventScreenView, parameters: [
-            AnalyticsParameterScreenName: "Map"
-        ])
         locationManager.locationPublisher
             .compactMap { $0 }
             .first()

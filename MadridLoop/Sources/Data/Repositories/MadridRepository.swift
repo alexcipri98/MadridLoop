@@ -9,12 +9,14 @@ import DependencyInjector
 
 open class MadridRepository: GetEventsCalendarRepositoryContract,
                              GetDogsInformationRepositoryContract,
-                             GetMarketsInformationRepositoryContract {
+                             GetMarketsInformationRepositoryContract,
+                             GetVersionRepositoryContract {
 
     // Remotes
     public let getEventsCalendarRemoteDataSource: GetEventsCalendarRemoteDataSourceContract
     public let getDogsInformationRemoteDataSource: GetDogsInformationRemoteDataSourceContract
     public let getMarketsInformationRemoteDataSource: GetMarketsRemoteDataSourceContract
+    public let versionRemoteDataSource: GetVersionRemoteDataSourceContract
 
     // Locals
     public let eventsCalendarLocalDataSource: EventsCalendarLocalDataSourceContract
@@ -24,9 +26,10 @@ open class MadridRepository: GetEventsCalendarRepositoryContract,
     // Mappers
     public let landingEntriesEntityMapper: LandingEntriesEntityMapperContract
     public let dogsTrashEntityMapper: DogsTrashEntityMapperContract
-    public let dogsFontsEntityMapper: DogsFontsEntityMapperContract
+    public let dogsZonesEntityMapper: DogsZonesEntityMapperContract
     public let normalFontsEntityMapper: NormalFontsEntityMapperContract
     public let getMarketsEntityMapper: GetMarketsEntityMapperContract
+    public let versionEntityMapper: VersionEntityMapperContract
 
     private var inMemoryEvents: [EventEntryModel]? = nil
 
@@ -36,7 +39,8 @@ open class MadridRepository: GetEventsCalendarRepositoryContract,
         @Injected var landingEntriesEntityMapper: LandingEntriesEntityMapperContract
         @Injected var getDogsInformationRemoteDataSource: GetDogsInformationRemoteDataSourceContract
         @Injected var getMarketsInformationRemoteDataSource: GetMarketsRemoteDataSourceContract
-
+        @Injected var versionRemoteDataSource: GetVersionRemoteDataSourceContract
+    
         // Locals
         @Injected var eventsCalendarLocalDataSource: EventsCalendarLocalDataSourceContract
         @Injected var dogsInformationLocalDataSource: DogsInformationLocalDataSourceContract
@@ -44,14 +48,16 @@ open class MadridRepository: GetEventsCalendarRepositoryContract,
 
         // Mappers
         @Injected var dogsTrashEntityMapper: DogsTrashEntityMapperContract
-        @Injected var dogsFontsEntityMapper: DogsFontsEntityMapperContract
+        @Injected var dogsZonesEntityMapper: DogsZonesEntityMapperContract
         @Injected var normalFontsEntityMapper: NormalFontsEntityMapperContract
         @Injected var getMarketsEntityMapper: GetMarketsEntityMapperContract
+        @Injected var versionEntityMapper: VersionEntityMapperContract
 
         // Remotes
         self.getEventsCalendarRemoteDataSource = getEventsCalendarRemoteDataSource
         self.landingEntriesEntityMapper = landingEntriesEntityMapper
         self.getDogsInformationRemoteDataSource = getDogsInformationRemoteDataSource
+        self.versionRemoteDataSource = versionRemoteDataSource
 
         // Locals
         self.eventsCalendarLocalDataSource = eventsCalendarLocalDataSource
@@ -60,10 +66,11 @@ open class MadridRepository: GetEventsCalendarRepositoryContract,
 
         // Mappers
         self.dogsTrashEntityMapper = dogsTrashEntityMapper
-        self.dogsFontsEntityMapper = dogsFontsEntityMapper
+        self.dogsZonesEntityMapper = dogsZonesEntityMapper
         self.normalFontsEntityMapper = normalFontsEntityMapper
         self.getMarketsInformationRemoteDataSource = getMarketsInformationRemoteDataSource
         self.getMarketsEntityMapper = getMarketsEntityMapper
+        self.versionEntityMapper = versionEntityMapper
     }
 
     open func getEventsCalendar() async throws -> [EventEntryModel] {
@@ -101,16 +108,16 @@ open class MadridRepository: GetEventsCalendarRepositoryContract,
         }
 
         async let trashEntity = getDogsInformationRemoteDataSource.getDogsTrashInformation(distrit: distrit)
-        async let dogsFontsEntity = getDogsInformationRemoteDataSource.getDogsFonts(district: distrit)
+        async let dogsZonesEntity = getDogsInformationRemoteDataSource.getDogsZones(district: distrit)
         async let normalFontsEntity = getDogsInformationRemoteDataSource.getNormalFonts(district: distrit)
 
-        let (trash, fonts, normalFonts) = try await (trashEntity, dogsFontsEntity, normalFontsEntity)
+        let (trash, zones, normalFonts) = try await (trashEntity, dogsZonesEntity, normalFontsEntity)
 
         let trashModel = try dogsTrashEntityMapper.map(trash)
-        let fontsModel = try dogsFontsEntityMapper.map(fonts)
+        let zonesModel = try dogsZonesEntityMapper.map(zones)
         let normalFontsModel = try normalFontsEntityMapper.map(normalFonts)
 
-        let result = trashModel + fontsModel + normalFontsModel
+        let result = trashModel + zonesModel + normalFontsModel
         dogsInformationLocalDataSource.addDogsInformation(result)
         return result
     }
@@ -134,5 +141,10 @@ open class MadridRepository: GetEventsCalendarRepositoryContract,
         let markets = try getMarketsEntityMapper.map(entity)
         try await marketsInformationLocalDataSource.saveMarkets(markets)
         return markets
+    }
+
+    open func getVersion(version: String) async throws -> VersionModel {
+        let result = try await versionRemoteDataSource.getVersion(version: version)
+        return try versionEntityMapper.map(result)
     }
 }

@@ -31,6 +31,8 @@ public class Navigator: ScreenNavigator {
             return ListEventsBuilder().build()
         case .listMerchants:
             return ListMerchantsBuilder().build()
+        case .versionUpdate(let navigationModel):
+            return VersionUpdateBuilder().setNavigationModel(navigationModel).build()
         }
     }
 }

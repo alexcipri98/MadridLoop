@@ -58,7 +58,7 @@ open class MapContentSectionMapper: MapContentSectionMapperContract {
                 } else if $0.iconName == IconsNames.normalFont.rawValue {
                     return isFilterSelected[.isNormalFontsFilterSelected] ?? true
                 } else if $0.iconName == IconsNames.dogFont.rawValue {
-                    return isFilterSelected[.isDogsFontsFilterSelected] ?? true
+                    return isFilterSelected[.isDogsZonesFilterSelected] ?? true
                 }
                 return true
             }

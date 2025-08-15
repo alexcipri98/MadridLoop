@@ -23,7 +23,7 @@ public protocol GetUserDistritUseCaseContract: Instanciable {
 // MARK: - Implementación
 
 open class GetUserDistritUseCase: GetUserDistritUseCaseContract {
-    private let locationManager: UserLocationManagerContract
+    public let locationManager: UserLocationManagerContract
     
     required public init() {
         @Injected var locationManager: UserLocationManagerContract

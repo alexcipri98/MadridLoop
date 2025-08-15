@@ -17,7 +17,8 @@ open class DogsTrashEntityMapper: DogsTrashEntityMapperContract {
 
     open func map(_ input: Data) throws -> DogTrashEntity {
         let cleanedData = input.cleanedInvalidEscapes() ?? input
-        return try cleanedData.map(DogTrashEntity.self)
+        let aux = try cleanedData.map(DogTrashEntity.self)
+        return aux
     }
 
     open func map(_ input: DogTrashEntity) throws -> [DogsInformationModel] {

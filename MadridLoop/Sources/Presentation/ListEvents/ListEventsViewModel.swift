@@ -9,7 +9,6 @@ import DependencyInjector
 import PresentationLayer
 import Combine
 import MapKit
-import FirebaseAnalytics
 
 open class ListEventsViewModelDependencies {
     public init(identifier: String) {}
@@ -68,9 +67,6 @@ open class ListEventsViewModel: ListEventsHeaderSectionViewModelContract,
     open func setupDependencies(_ dependencies: ListEventsViewModelDependencies) {}
 
     open func notifyAppearance() {
-        Analytics.logEvent(AnalyticsEventScreenView, parameters: [
-            AnalyticsParameterScreenName: "ListEvents"
-        ])
         loadInitialData()
     }
 
